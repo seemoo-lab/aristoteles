@@ -107,6 +107,10 @@ the baseband chip. Injection works using Frida, meaning that these scripts requi
 See [DEVELOPING.md](DEVELOPING.md) for details on how to extend the parsers, implementing new ones or even running
 the provided [Ghidra](https://github.com/NationalSecurityAgency/ghidra) extraction scripts.
 
+## Publications
+
+- [Kröll, Tobias (2021): **"ARIstoteles: iOS Baseband Interface Protocol Analysis"**](https://tuprints.ulb.tu-darmstadt.de/id/eprint/19397)  
+   This project was initially developed and documented in the bachelor thesis by Tobias Kröll.
 
 ## License
 
