@@ -28,7 +28,6 @@ pkt_ack_opt = ProtoField.uint16("ari.ack_opt", "Acknowledgement Option", base.DE
 
 -- Unknown Header bits/bytes
 pkt_unknown_4 = ProtoField.uint8("ari.unknown_4", "Unknown (Byte 4, Bits 5-7)", base.DEC)
-pkt_unknown_5 = ProtoField.uint8("ari.unknown_5", "Unknown (Byte 5, Bit 7)", base.DEC)
 pkt_unknown_8 = ProtoField.uint8("ari.unknown_8", "Unknown (Byte 8, Bit 2-3)", base.DEC)
 pkt_unknown_10 = ProtoField.uint8("ari.unknown_10", "Unknown (Byte 10, Bit 7)", base.DEC)
 
@@ -55,7 +54,7 @@ expert_missing_mandatory_tlv = ProtoExpert.new("ari.missing_mandatory_tlv", "ARI
 expert_tlv_codec_length_warn = ProtoExpert.new("ari.tlv_codec_length_warn", "ARI: Specified codec length did not perfectly fit into this field (some bytes at the end were cut-off).", expert.group.MALFORMED, expert.severity.WARN)
 
 ari.fields = { proto_flag, pkt_seq_num, pkt_group, pkt_type, pkt_type_id, pkt_len, pkt_trx, pkt_ack_opt, -- Header fields
-                pkt_unknown_4, pkt_unknown_5, pkt_unknown_8, pkt_unknown_10,
+                pkt_unknown_4, pkt_unknown_8, pkt_unknown_10,
                 tlv_id_field, tlv_mandatory_field, tlv_codec_name_field, tlv_type_desc_field, tlv_version_field, tlv_length_field, tlv_data_field, tlv_data_uint_field, tlv_unknown_0, tlv_unknown_2,
               }
 
@@ -358,7 +357,6 @@ function ari.dissector(buffer, pinfo, tree)
     -- Unknown bits/bytes
     local unknown_tree = header_tree:add("Unknown bits")
     unknown_tree:add(pkt_unknown_4, buffer(4, 1), buffer(4, 1):bitfield(5, 3), "Unknown Byte 4, Bits 5-7: " .. buffer(4, 1):bitfield(5, 3))
-    unknown_tree:add(pkt_unknown_5, buffer(5, 1), buffer(5, 1):bitfield(7, 1), "Unknown Byte 5, Bit 7: " .. buffer(5, 1):bitfield(7, 1))
     unknown_tree:add(pkt_unknown_8, buffer(8, 1), buffer(8, 1):bitfield(2, 2), "Unknown Byte 8, Bits 2-3: " .. buffer(8, 1):bitfield(2, 2))
     unknown_tree:add(pkt_unknown_10, buffer(10, 1), buffer(10, 1):bitfield(7, 1), "Unknown Byte 10, Bit 7: " .. buffer(10, 1):bitfield(7, 1))
 
