@@ -24,7 +24,8 @@ pkt_type_id = ProtoField.uint16("ari.type_id", "Type", base.DEC)
 pkt_type = ProtoField.string("ari.type")
 pkt_len = ProtoField.uint16("ari.length", "Length", base.DEC)
 pkt_trx = ProtoField.uint16("ari.transaction", "Transaction", base.DEC)
-pkt_ack_opt = ProtoField.uint16("ari.ack_opt", "Acknowledgement Option", base.DEC)
+pkt_ack_opt = ProtoField.uint8("ari.ack_opt", "Acknowledgement Option", base.DEC)
+pkt_gmid = ProtoField.uint32("ari.gmid", "GMID (Combination of Group and Type)", base.DEC)
 
 -- Unknown Header bits/bytes
 pkt_unknown_4 = ProtoField.uint8("ari.unknown_4", "Unknown (Byte 4, Bits 5-7)", base.DEC)
@@ -53,7 +54,7 @@ expert_too_small = ProtoExpert.new("ari.minimum_length", "ARI: Packet is smaller
 expert_missing_mandatory_tlv = ProtoExpert.new("ari.missing_mandatory_tlv", "ARI: Missing mandatory TLV", expert.group.MALFORMED, expert.severity.ERROR)
 expert_tlv_codec_length_warn = ProtoExpert.new("ari.tlv_codec_length_warn", "ARI: Specified codec length did not perfectly fit into this field (some bytes at the end were cut-off).", expert.group.MALFORMED, expert.severity.WARN)
 
-ari.fields = { proto_flag, pkt_seq_num, pkt_group, pkt_type, pkt_type_id, pkt_len, pkt_trx, pkt_ack_opt, -- Header fields
+ari.fields = { proto_flag, pkt_seq_num, pkt_group, pkt_type, pkt_type_id, pkt_len, pkt_trx, pkt_ack_opt, pkt_gmid, -- Header fields
                 pkt_unknown_4, pkt_unknown_8, pkt_unknown_10,
                 tlv_id_field, tlv_mandatory_field, tlv_codec_name_field, tlv_type_desc_field, tlv_version_field, tlv_length_field, tlv_data_field, tlv_data_uint_field, tlv_unknown_0, tlv_unknown_2,
               }
@@ -353,6 +354,13 @@ function ari.dissector(buffer, pinfo, tree)
 
     header_tree:add(pkt_ack_opt, buffer(8, 1), ack_opt, "Acknowledgement Option: " .. ack_opt)
     packet.ack_opt = ack_opt
+
+    --- Virtual field GMID
+    -- the "gmid" is a virtual id consisting of the type (or "mid") and group ("gid")
+    local gmid = bit32.bor(bit32.lshift(pkt_group_int, 26), bit32.lshift(pkt_type_int, 15))
+
+    header_tree:add(pkt_gmid, buffer(4, 6), gmid, "Gm id (Group + Type): " .. gmid .. " (" .. string.format("0x%08x", gmid) .. ")")
+    packet.gmid = gmid
 
     -- Unknown bits/bytes
     local unknown_tree = header_tree:add("Unknown bits")
