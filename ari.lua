@@ -359,7 +359,7 @@ function ari.dissector(buffer, pinfo, tree)
     -- the "gmid" is a virtual id consisting of the type (or "mid") and group ("gid")
     local gmid = bit32.bor(bit32.lshift(pkt_group_int, 26), bit32.lshift(pkt_type_int, 15))
 
-    header_tree:add(pkt_gmid, buffer(8, 2), gmid, "Gm id (Group + Type): " .. gmid .. " (" .. string.format("0x%08x", gmid) .. ")")
+    header_tree:add(pkt_gmid, buffer(4, 6), gmid, "Gm id (Group + Type): " .. gmid .. " (" .. string.format("0x%08x", gmid) .. ")")
     packet.gmid = gmid
 
     -- Unknown bits/bytes
