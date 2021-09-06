@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Fixes
 - Remove unknown bit 7 in byte 5 (is part of the group id) by @sterzy (#4)
+- Fix range of bytes shown to include parts of the group id (#8)
 
 ## [v1.0.0](https://github.com/seemoo-lab/aristoteles/tree/v1.0.0) (11-08-2021)
 

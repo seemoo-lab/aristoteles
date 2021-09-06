@@ -302,7 +302,7 @@ function ari.dissector(buffer, pinfo, tree)
     
     local pkt_group_name = structure_lut[pkt_group_int] and structure_lut[pkt_group_int]["name"] or "???"
 
-    header_tree:add(pkt_group, buffer(4, 1), pkt_group_int, "Group: " .. pkt_group_name .. " (" .. pkt_group_int .. ")")
+    header_tree:add(pkt_group, buffer(4, 2), pkt_group_int, "Group: " .. pkt_group_name .. " (" .. pkt_group_int .. ")")
     packet.group = pkt_group_name
     packet.group_int = pkt_group_int
 
