@@ -6,6 +6,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+## [v2.0.0](https://github.com/seemoo-lab/aristoteles/tree/v2.0.0) (28-11-2021)
+
 ### Features
 - Added a GMID field to the dissector (virtual field, combination of group + type id) by @sterzy (#6)
 - Add Acknowledgement Option field by @sterzy (#2)
