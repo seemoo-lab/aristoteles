@@ -90,7 +90,6 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
 
     -- Check if the header is even available in the buffer (not malformed)
     if packet.total_length < cur_tlv_byte + 4 then
-        
         tlv_tree:add_tvb_expert_info(expert_tlv_header_malformed, buffer(cur_tlv_byte, packet.total_length - cur_tlv_byte))
         return nil
     end
@@ -132,7 +131,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
 
     -- TLV version
     local tlv_version = tlv_header_buffer:bitfield(8, 3)
-    
+
     tlv_tree:add(tlv_version_field, buffer(cur_tlv_byte + 1, 1), tlv_version, "Version: " .. tlv_version)
     tlv.version = tlv_version
     cur_tlv_byte = cur_tlv_byte + 2
@@ -159,7 +158,6 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
 
     -- Check if the length is even available in the buffer (not malformed)
     if packet.total_length < cur_tlv_byte + tlv_length then
-        
         tlv_tree:add_tvb_expert_info(expert_tlv_data_malformed, buffer(cur_tlv_byte, packet.total_length - cur_tlv_byte))
         return tlv
     end
@@ -191,12 +189,12 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
 
         for _, parser in pairs(available_tlv_parsers) do
             parse_success = parser(packet, tlv_content_tree, cur_tlv_byte, tlv_data, extra_information)
-            
+
             if parse_success then
                 break
             end
         end
-        
+
         if not parse_success then
             tlv_content_tree:set_text("Content: Unknown (tlv parsers failed)")
         end
@@ -237,7 +235,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
         end
     elseif tlv_codec_name and tlv_data_raw_unsigned_int and asstring_lut[tlv_codec_name] then
         -- AsString resolver
-        local tlv_content_tree = tlv_tree:add("Content", tlv_data, asstring_lut[tlv_codec_name][tlv_data_raw_unsigned_int:tonumber()] or "???")
+        tlv_tree:add("Content", tlv_data, asstring_lut[tlv_codec_name][tlv_data_raw_unsigned_int:tonumber()] or "???")
     else
         tlv_tree:add("Content: Unknown (no parser available)", tlv_data)
     end
@@ -265,16 +263,16 @@ function ari.dissector(buffer, pinfo, tree)
     local ari_tree = tree:add(ari, buffer(), "ARI Protocol")
 
     -- minimum header length check
-    if packet.total_length < 12 then 
+    if packet.total_length < 12 then
         ari_tree:add_tvb_expert_info(expert_too_small, buffer())
         return
-    end 
+    end
 
     -- correct ARI magic bytes check
-    if buffer(0, 4):bytes() ~= ByteArray.new("de c0 7e ab") then 
+    if buffer(0, 4):bytes() ~= ByteArray.new("de c0 7e ab") then
         ari_tree:add_tvb_expert_info(expert_header_wrong_magic_bytes, buffer(0, 4))
         return
-    end 
+    end
 
     --- HEADER
     local header_tree = ari_tree:add("Header", buffer(0, 12))
@@ -299,7 +297,7 @@ function ari.dissector(buffer, pinfo, tree)
     --- Packet Group ID
     local pkt_group_int = buffer(4, 1):bitfield(0, 5)
     pkt_group_int = pkt_group_int + bit32.rshift(buffer(5, 1):bitfield(7, 1), -5)
-    
+
     local pkt_group_name = structure_lut[pkt_group_int] and structure_lut[pkt_group_int]["name"] or "???"
 
     header_tree:add(pkt_group, buffer(4, 2), pkt_group_int, "Group: " .. pkt_group_name .. " (" .. pkt_group_int .. ")")
@@ -346,7 +344,7 @@ function ari.dissector(buffer, pinfo, tree)
     pkt_transaction = bit32.rshift(pkt_trx_10, 1) -- Right shift, to ignore the last bit 
     pkt_transaction = pkt_transaction + bit32.lshift(pkt_trx_11, 7) -- Shift left for 7 bits to concatenate bits
 
-    header_tree:add(pkt_trx, buffer(10, 2), pkt_transaction, "Transaction: " .. pkt_transaction.. " (" .. string.format("0x%08x", pkt_transaction) .. ")")
+    header_tree:add(pkt_trx, buffer(10, 2), pkt_transaction, "Transaction: " .. pkt_transaction .. " (" .. string.format("0x%08x", pkt_transaction) .. ")")
     packet.trx = pkt_trx
 
     --- Acknowledgement Option
@@ -382,10 +380,10 @@ function ari.dissector(buffer, pinfo, tree)
 
         while (cur_tlv_byte < packet.total_length) do
             local tlv_tree = data_tree:add(buffer(cur_tlv_byte), "")
-            
+
             local tlv = dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
 
-            packet.tlvs[#packet.tlvs+1] = tlv
+            packet.tlvs[#packet.tlvs + 1] = tlv
 
             local tlv_data_length = tlv and tlv.length or 0
 
@@ -412,12 +410,12 @@ function ari.dissector(buffer, pinfo, tree)
                 end
 
                 if not found then
-                    missing_mandatory_tlvs[#missing_mandatory_tlvs+1] = id
+                    missing_mandatory_tlvs[#missing_mandatory_tlvs + 1] = id
                 end
             end
 
             if #missing_mandatory_tlvs > 0 then
-                data_tree:add_tvb_expert_info(expert_missing_mandatory_tlv, buffer(), "ARI: Missing mandatory TLVs with ID: " .. table.concat(missing_mandatory_tlvs, ', '))
+                data_tree:add_tvb_expert_info(expert_missing_mandatory_tlv, buffer(), "ARI: Missing mandatory TLVs with ID: " .. table.concat(missing_mandatory_tlvs, ", "))
             end
         end
     end
