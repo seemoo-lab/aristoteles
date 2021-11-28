@@ -111,6 +111,8 @@ the provided [Ghidra](https://github.com/NationalSecurityAgency/ghidra) extracti
 
 - [Kröll, Tobias (2021): **"ARIstoteles: iOS Baseband Interface Protocol Analysis"**](https://tuprints.ulb.tu-darmstadt.de/id/eprint/19397)  
    This project was initially developed and documented in the bachelor thesis by Tobias Kröll.
+- [Kröll T., Kleber S., Kargl F., Hollick M., Classen J. (2021): **"ARIstoteles – Dissecting Apple’s Baseband Interface"**](https://doi.org/10.1007/978-3-030-88418-5_7)  
+   Our paper about ARI dissection and fuzzing presented at ESORICS 2021.
 
 ## License
 
