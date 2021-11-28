@@ -163,6 +163,26 @@ class Analyzer:
         removeDataAt(mtlv_id_ptr)
         
         return result
+
+    def analyzeTLVCodec(self, codecPtr):
+        result = {}
+
+        removeDataAt(codecPtr)
+        tlv_codec_data = self.listing.createData(codecPtr, Pointer40DataType())
+        tlv_codec_ptr = tlv_codec_data.getValue()
+
+        # Codec Byte Length
+        removeDataAt(tlv_codec_ptr)
+        tlv_codec_length_data = self.listing.createData(tlv_codec_ptr, UnsignedIntegerDataType())
+        result["length"] = tlv_codec_length_data.getValue().getUnsignedValue()
+
+        # Codec Name
+        tlv_codec_name_ptr = tlv_codec_ptr.add(40)
+        removeDataAt(tlv_codec_name_ptr)
+        tlv_codec_name_data = self.listing.createData(tlv_codec_name_ptr, Pointer40DataType())
+        result["name"] = getDataAt(tlv_codec_name_data.getValue()).getValue()
+
+        return result
     
     def analyzeTLVData(self, tlvPtr):
         result = []
@@ -184,16 +204,7 @@ class Analyzer:
             tlv_data["id"] = tlv_id
             
             tlv_codec_ptr = tlv_id_ptr.add(16)
-            removeDataAt(tlv_codec_ptr)
-            tlv_codec_data = self.listing.createData(tlv_codec_ptr, Pointer40DataType())
-            tlv_codec_ptr = tlv_codec_data.getValue()
-            
-            tlv_data["codec"] = {}
-            
-            tlv_codec_name_ptr = tlv_codec_ptr.add(40)
-            removeDataAt(tlv_codec_name_ptr)
-            tlv_codec_name_data = self.listing.createData(tlv_codec_name_ptr, Pointer40DataType())
-            tlv_data["codec"]["name"] = getDataAt(tlv_codec_name_data.getValue()).getValue()
+            tlv_data["codec"] = self.analyzeTLVCodec(tlv_codec_ptr)
             
             tlv_type_description_ptr = tlv_id_ptr.add(24)
             removeDataAt(tlv_type_description_ptr)
@@ -233,6 +244,7 @@ class Analyzer:
             for tlv in item["tlvs"]:
                 self.luaOutputFile.write("                [" + str(tlv["id"]) + "] = {\n")
                 self.luaOutputFile.write("                    codec = {\n")
+                self.luaOutputFile.write("                        length = " + str(tlv["codec"]["length"]) + ",\n")
                 self.luaOutputFile.write("                        name = \"" + tlv["codec"]["name"] + "\",\n")
                 self.luaOutputFile.write("                    },\n")
                 self.luaOutputFile.write("                    type_desc = \"" + tlv["type_description"] + "\"\n")

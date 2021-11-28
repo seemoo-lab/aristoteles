@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 - Added a GMID field to the dissector (virtual field, combination of group + type id) by @sterzy (#6)
 - Add Acknowledgement Option field by @sterzy (#2)
+- Added TLV codec's byte length extraction via the structure extraction Ghidra script
 
 ### Changes
 - Renamed `utils.lua` to `ari_utils.lua` to prevent interference with other lua plugins
