@@ -8,8 +8,8 @@
 #
 # NOTE: Also make sure that the first packet has the most / the same amount of bytes than all others, otherwise this script wont work!
 
-from colorama import Fore, Back, Style
 import sys
+from colorama import Fore, Back, Style
 
 if len(sys.argv) < 2:
     print('%s This needs at least 1 filename arguments to run! %s' % (Fore.RED, Style.RESET_ALL))
@@ -21,27 +21,27 @@ overallfirstPacket = ''
 overallSimilarity = []
 
 for filename in files:
-    curfile = open(filename, 'r')
-    input = []
+    curfile = open(filename, 'r', encoding="utf-8")
+    inputLines = []
 
     for line in curfile.readlines():
-        input.append(bin(int(line[:-1], 16))[2:])
+        inputLines.append(bin(int(line[:-1], 16))[2:])
 
-    if len(input) < 1:
+    if len(inputLines) < 1:
         print('%s Not enough input lines to analyze a diff (< 1) %s' % (Fore.RED, Style.RESET_ALL))
         exit(1)
 
     if len(overallfirstPacket) == 0:
-        overallfirstPacket = input[0]
+        overallfirstPacket = inputLines[0]
         overallSimilarity = [False] * len(overallfirstPacket)
 
-    referenceLine = input[0]
+    referenceLine = inputLines[0]
     outputStr = ''
 
     for pos in range(len(overallfirstPacket)):
         eq = True
 
-        for line in input:
+        for line in inputLines:
             if pos >= len(line) or line[pos] != referenceLine[pos]:
                 eq = False
                 break
@@ -50,13 +50,13 @@ for filename in files:
             outputStr += Back.GREEN + Fore.WHITE
         else:
             outputStr += Back.RED + Fore.WHITE
-        
+
         if not eq or overallfirstPacket != referenceLine and overallfirstPacket[pos] == referenceLine[pos]:
             overallSimilarity[pos] = True
 
         outputStr += referenceLine[pos]
         outputStr += Style.RESET_ALL
-        
+
         if pos % 8 == 7:
             outputStr += ' '
 
@@ -74,7 +74,7 @@ for pos in range(len(overallfirstPacket)):
 
     outputStrEnd += overallfirstPacket[pos]
     outputStrEnd += Style.RESET_ALL
-    
+
     if pos % 8 == 7:
         outputStrEnd += ' '
 

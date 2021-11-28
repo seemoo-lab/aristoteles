@@ -1,21 +1,17 @@
 #!/usr/bin/env python3
 
-# Watch and capture ARI packets from the running idevicesyslog 
-# You need to have permissions for executing the dumpcap (you have to be part of the "wireshark" group or run this as sudo) 
+# Watch and capture ARI packets from the running idevicesyslog
+# You need to have permissions for executing the dumpcap (you have to be part of the "wireshark" group or run this as sudo)
 # Inspired / parts from https://github.com/seemoo-lab/internalblue/blob/cd75e8a747873855d4e2b310a2e6f52ae4217400/internalblue/cli.py#L1 (MIT License)
 
-import binascii
 import time
 import re
-import sys
 import io
 import os
 import subprocess
 from threading import Timer
 import struct
-from datetime import datetime
 import argparse
-from colorama import Fore, Back, Style
 
 class WatchSyslog:
     def __init__(self):
@@ -32,15 +28,15 @@ class WatchSyslog:
         else:
             print("idevicesyslog not found!")
             return False
-        
+
         DEVNULL = open(os.devnull, "wb")
-        
+
         self.syslog_process = subprocess.Popen(
             idevicesyslog_binary,
             stdout=subprocess.PIPE,
             stderr=DEVNULL,
         )
-        
+
         return True
 
     def _spawnWireshark(self):
@@ -66,7 +62,7 @@ class WatchSyslog:
         )
 
         DEVNULL = open(os.devnull, "wb")
-        
+
         # Check if wireshark or wireshark-gtk is installed. If both are
         # present, default to wireshark.
         if os.path.isfile("/usr/bin/wireshark"):
@@ -78,7 +74,7 @@ class WatchSyslog:
         else:
             print("Wireshark not found!")
             return False
-        
+
         self.wireshark_process = subprocess.Popen(
             [wireshark_binary, "-k", "-i", "-"],
             stdin=subprocess.PIPE,
@@ -124,12 +120,12 @@ class WatchSyslog:
         self.running = True
 
         print("Monitor started.")
-        
+
         for line in io.TextIOWrapper(self.syslog_process.stdout, encoding="utf-8"):
             bincontent = re.search(r".*CommCenter.*Bin=\['(.*)'\]", line)
             if bincontent is not None:
                 self.feedWireshark(bincontent.group(1).lower().replace(" ", ""))
-        
+
         return None
 
     def feedWireshark(self, data):
@@ -183,10 +179,9 @@ class WatchSyslog:
 # Call script
 if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser(description="Attaches to the idevicesyslog and pipes the output to wireshark for live monitoring.")
-    
+
     args = arg_parser.parse_args()
-    
+
     watcher = WatchSyslog()
-    
+
     watcher.startMonitor()
-    

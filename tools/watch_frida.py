@@ -1,22 +1,16 @@
 #!/usr/bin/env python3
 
-# Watch and capture ARI packets by intercepting the packets with frida 
-# You need to have permissions for executing the dumpcap (you have to be part of the "wireshark" group or run this as sudo) 
+# Watch and capture ARI packets by intercepting the packets with frida
+# You need to have permissions for executing the dumpcap (you have to be part of the "wireshark" group or run this as sudo)
 # Inspired / parts from https://github.com/seemoo-lab/internalblue/blob/cd75e8a747873855d4e2b310a2e6f52ae4217400/internalblue/cli.py#L1 (MIT License)
 
-import frida
-import binascii
 import time
-import re
-import sys
-import io
 import os
 import subprocess
 from threading import Timer
 import struct
-from datetime import datetime
 import argparse
-from colorama import Fore, Back, Style
+import frida
 
 class WatchFrida:
     def __init__(self):
@@ -31,14 +25,14 @@ class WatchFrida:
     def _spawnFridaScript(self):
         frida_session = frida.get_usb_device(1).attach("CommCenter")
 
-        self.frida_script = frida_session.create_script(open("frida_ari_functions.js", "r").read())
+        self.frida_script = frida_session.create_script(open("frida_ari_functions.js", "r", encoding="utf-8").read())
 
         self.frida_script.load()
         self.frida_script.exports.setsymbols(self.ios_symbols)
         self.frida_script.exports.setintercept(True)
-        
+
         print("  * Initialized functions with Frida.")
-        
+
         return True
 
     def _spawnWireshark(self):
@@ -64,7 +58,7 @@ class WatchFrida:
         )
 
         DEVNULL = open(os.devnull, "wb")
-        
+
         # Check if wireshark or wireshark-gtk is installed. If both are
         # present, default to wireshark.
         if os.path.isfile("/usr/bin/wireshark"):
@@ -76,7 +70,7 @@ class WatchFrida:
         else:
             print("Wireshark not found!")
             return False
-        
+
         self.wireshark_process = subprocess.Popen(
             [wireshark_binary, "-k", "-i", "-"],
             stdin=subprocess.PIPE,
@@ -123,11 +117,11 @@ class WatchFrida:
         self.running = True
 
         print("Monitor started.")
-        
+
         self.frida_script.on('message', self.on_msg)
-        
+
         return None
-    
+
     def on_msg(self, message, data):
         if message['type'] == 'send':
             if message['payload'] == 'ari_inbound_msg_cb':
@@ -188,10 +182,9 @@ class WatchFrida:
 # Call script
 if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser(description="Intercepts ARI messages using frida and pipes the output to wireshark for live monitoring.")
-    
+
     args = arg_parser.parse_args()
-    
+
     watcher = WatchFrida()
-    
+
     watcher.startMonitor()
-    
