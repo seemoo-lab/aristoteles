@@ -191,7 +191,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
 
     if available_tlv_parsers then
         -- TLV parser
-        local tlv_content_tree = tlv_tree:add("Content", tlv_data)
+        local tlv_content_tree = tlv_tree:add(tlv_data, "Content")
         local parse_success = false
 
         for _, parser in pairs(available_tlv_parsers) do
@@ -207,7 +207,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
         end
     elseif available_codec_parsers then
         -- Codec parsers
-        local tlv_content_tree = tlv_tree:add("Content", tlv_data)
+        local tlv_content_tree = tlv_tree:add(tlv_data, "Content")
         local parse_success = false
 
         for _, parser in pairs(available_codec_parsers) do
@@ -242,7 +242,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
         end
     elseif tlv_codec_name and asstring_lut[tlv_codec_name] then
         -- AsString resolver
-        local tlv_content_tree = tlv_tree:add("Content", tlv_data)
+        local tlv_content_tree = tlv_tree:add(tlv_data, "Content")
 
         local codecLength = tlv_codec_length or tlv_length
         local tlv_len_int = tlv_length
@@ -267,7 +267,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
             tlv_content_tree:add(tlv_data_codec_asstring_value_field, codec_data, codec_data_uint, (asstring_lut_value or "???") .. " (" .. codec_data_uint .. ")")
         end
     else
-        tlv_tree:add("Content: Unknown (no parser available)", tlv_data)
+        tlv_tree:add(tlv_data, "Content: Unknown (no parser available)")
     end
 
     return tlv
@@ -305,7 +305,7 @@ function ari.dissector(buffer, pinfo, tree)
     end
 
     --- HEADER
-    local header_tree = ari_tree:add("Header", buffer(0, 12))
+    local header_tree = ari_tree:add(buffer(0, 12), "Header")
 
     -- PROTOCOL FLAG/INDICATOR: DE C0 7E AB
     header_tree:add_le(proto_flag, buffer(0, 4))
@@ -403,7 +403,7 @@ function ari.dissector(buffer, pinfo, tree)
     if packet.total_length > 12 then
         local message_type_info = structure_lut[packet.group_int] and structure_lut[packet.group_int][packet.type_int] or nil
 
-        local data_tree = ari_tree:add("Data", buffer(12))
+        local data_tree = ari_tree:add(buffer(12), "Data")
         packet.tlvs = {}
 
         --- TLVs
