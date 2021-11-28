@@ -175,6 +175,16 @@ class Analyzer:
         tlv_codec_length_data = self.listing.createData(tlv_codec_ptr, UnsignedIntegerDataType())
         result["length"] = tlv_codec_length_data.getValue().getUnsignedValue()
 
+        # Codec encode function
+        tlv_codec_encode_ptr = tlv_codec_ptr.add(16)
+        removeDataAt(tlv_codec_encode_ptr)
+        self.listing.createData(tlv_codec_encode_ptr, Pointer40DataType())
+
+        # Codec decode function
+        tlv_codec_decode_ptr = tlv_codec_ptr.add(24)
+        removeDataAt(tlv_codec_decode_ptr)
+        self.listing.createData(tlv_codec_decode_ptr, Pointer40DataType())
+
         # Codec Name
         tlv_codec_name_ptr = tlv_codec_ptr.add(40)
         removeDataAt(tlv_codec_name_ptr)
