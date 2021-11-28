@@ -12,7 +12,7 @@ PARSER.fields = fields
 
 function PARSER.parse(packet, tlv_tree, cur_tlv_data_byte, tlv_data_tvb, extra_information)
     local buffer = packet.buffer
-    
+
     -- Old PIN
     local old_pin = buffer(cur_tlv_data_byte, 8):string()
     tlv_tree:add(fields.ibisimgenpinreqchangedata_old_pin, buffer(cur_tlv_data_byte, 8), old_pin, "Old PIN: " .. old_pin)

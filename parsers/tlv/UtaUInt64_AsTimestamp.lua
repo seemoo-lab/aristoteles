@@ -18,6 +18,6 @@ function PARSER.parse(packet, tlv_tree, cur_tlv_data_byte, tlv_data_tvb, extra_i
     -- TODO: Last 2 bytes may be timezone offset (?)
     local time_str = "Time: " .. os.date("%Y-%m-%d %H:%M:%S", timestamp:tonumber() / 1000) .. "." .. timestamp:tonumber() % 1000
     tlv_tree:add(fields.utauint64_astimestamp_field, buffer(cur_tlv_data_byte, 6), timestamp:tonumber(), time_str)
-    
+
     return true
 end

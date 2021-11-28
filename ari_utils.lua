@@ -15,13 +15,13 @@ end
 -- @param value any
 -- @return boolean
 function table.Contains(tab, value)
-	for i = 1, #tab do
-		if tab[i] == value then
-			return true
-		end
-	end
+    for i = 1, #tab do
+        if tab[i] == value then
+            return true
+        end
+    end
 
-	return false
+    return false
 end
 
 ---
@@ -46,22 +46,22 @@ end
 -- @param any path the table with keys that will be used to traverse the tree (in order).
 -- @return any the value at the given path or nil if it does not exist
 function table.GetWithPath(dataTable, path)
-	assert(path, "table.GetWithPath(..) missing path parameter.")
+    assert(path, "table.GetWithPath(..) missing path parameter.")
 
-	-- Convert single key to table
-	if not istable(path) then
-		path = { path }
-	end
+    -- Convert single key to table
+    if not istable(path) then
+        path = { path }
+    end
 
-	local currentDataTable = dataTable
+    local currentDataTable = dataTable
 
-	for i = 1, #path do
-		if currentDataTable == nil then return end
+    for i = 1, #path do
+        if currentDataTable == nil then return end
 
-		currentDataTable = currentDataTable[path[i]]
-	end
+        currentDataTable = currentDataTable[path[i]]
+    end
 
-	return currentDataTable
+    return currentDataTable
 end
 
 ---
@@ -75,22 +75,22 @@ end
 -- @param any path the table with keys that will be used to traverse the tree (in order).
 -- @param any value
 function table.SetWithPath(dataTable, path, value)
-	assert(path, "table.SetWithPath(..) missing path parameter.")
+    assert(path, "table.SetWithPath(..) missing path parameter.")
 
-	-- Convert single key to table
-	if not istable(path) then
-		path = { path }
-	end
+    -- Convert single key to table
+    if not istable(path) then
+        path = { path }
+    end
 
-	local currentDataTable = dataTable or {}
+    local currentDataTable = dataTable or {}
 
-	-- Create new table entries along the path if they do not exist
-	-- This will be done until the second last table is reached.
-	for i = 1, (#path - 1) do
-		currentDataTable[path[i]] = currentDataTable[path[i]] or {}
-		currentDataTable = currentDataTable[path[i]]
-	end
+    -- Create new table entries along the path if they do not exist
+    -- This will be done until the second last table is reached.
+    for i = 1, (#path - 1) do
+        currentDataTable[path[i]] = currentDataTable[path[i]] or {}
+        currentDataTable = currentDataTable[path[i]]
+    end
 
-	-- Set the value on the table (the last table on the path)
-	currentDataTable[path[#path]] = value
+    -- Set the value on the table (the last table on the path)
+    currentDataTable[path[#path]] = value
 end

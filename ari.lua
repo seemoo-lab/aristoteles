@@ -7,7 +7,7 @@
 -- Also indices for bits/bytes will also start from 0
 --
 
-require("utils")
+require("ari_utils")
 
 local disTable = DissectorTable.new("ari")
 

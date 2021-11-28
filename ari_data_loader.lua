@@ -3,7 +3,7 @@
 -- @author Tobias Kröll
 --
 
-require('utils')
+require("ari_utils")
 
 local cwd = debug.getinfo(1).source:match("@?(.*/)")
 

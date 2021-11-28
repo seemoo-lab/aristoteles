@@ -12,7 +12,7 @@ PARSER.fields = fields
 
 function PARSER.parse(packet, tlv_tree, cur_tlv_data_byte, tlv_data_tvb, extra_information)
     local buffer = packet.buffer
-    
+
     -- PLMN / IMSI
     local plmn_start = buffer(cur_tlv_data_byte, 2):le_uint()
     local plmn_end =  buffer(cur_tlv_data_byte + 2, 2):le_uint()
