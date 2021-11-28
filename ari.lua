@@ -39,8 +39,11 @@ tlv_codec_name_field = ProtoField.string("ari.tlv.codec.name", "TLV codec name")
 tlv_type_desc_field = ProtoField.string("ari.tlv.type_desc", "TLV type description")
 tlv_version_field = ProtoField.uint16("ari.tlv.version", "TLV version", base.DEC)
 tlv_length_field = ProtoField.uint16("ari.tlv.length", "TLV length", base.DEC)
+
+-- TLV Data fields
 tlv_data_field = ProtoField.bytes("ari.tlv.data", "Raw TLV data", base.SPACE)
 tlv_data_uint_field = ProtoField.uint64("ari.tlv.data_uint", "Raw TLV data as uint", base.DEC)
+tlv_data_codec_asstring_value_field = ProtoField.uint64("ari.tlv.data_asstring_uint_value", "AsString resolved enum value", base.DEC)
 
 -- Unknown TLV Header bits/bytes
 tlv_unknown_0 = ProtoField.uint8("ari.tlv.unknown_0", "Unknown TLV Header Byte 0, Bit 7", base.DEC)
@@ -56,7 +59,7 @@ expert_tlv_codec_length_warn = ProtoExpert.new("ari.tlv_codec_length_warn", "ARI
 
 ari.fields = { proto_flag, pkt_seq_num, pkt_group, pkt_type, pkt_type_id, pkt_len, pkt_trx, pkt_ack_opt, pkt_gmid, -- Header fields
                 pkt_unknown_4, pkt_unknown_8, pkt_unknown_10,
-                tlv_id_field, tlv_mandatory_field, tlv_codec_name_field, tlv_type_desc_field, tlv_version_field, tlv_length_field, tlv_data_field, tlv_data_uint_field, tlv_unknown_0, tlv_unknown_2,
+                tlv_id_field, tlv_mandatory_field, tlv_codec_name_field, tlv_type_desc_field, tlv_version_field, tlv_length_field, tlv_data_field, tlv_data_uint_field, tlv_data_codec_asstring_value_field, tlv_unknown_0, tlv_unknown_2,
               }
 
 -- Include fields from TLV parsers
@@ -117,6 +120,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
     tlv_tree:add(tlv_id_field, buffer(cur_tlv_byte, 2), tlv_id, "ID: " .. tlv_id .. tlv_id_extra_info)
 
     local tlv_codec_name = tlv_information and tlv_information.codec and tlv_information.codec.name or nil
+    local tlv_codec_length = tlv_information and tlv_information.codec and tlv_information.codec.length or nil
     local tlv_codec_name_text = tlv_codec_name or "Unknown codec / type"
     local tlv_type_desc = tlv_information and tlv_information.type_desc or "???"
     local tlv_mandatory = message_type_info and table.Contains(message_type_info.mtlvs, tlv_id) or false
@@ -204,7 +208,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
         local parse_success = false
 
         for _, parser in pairs(available_codec_parsers) do
-            local codecLength = parser.length or tlv_length
+            local codecLength = parser.length or tlv_codec_length or tlv_length
             local tlv_len_int = tlv_length
 
             local remainder = tlv_length % codecLength
@@ -233,9 +237,32 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
         if not parse_success then
             tlv_content_tree:set_text("Content: Unknown (codec parsers failed)")
         end
-    elseif tlv_codec_name and tlv_data_raw_unsigned_int and asstring_lut[tlv_codec_name] then
+    elseif tlv_codec_name and asstring_lut[tlv_codec_name] then
         -- AsString resolver
-        tlv_tree:add("Content", tlv_data, asstring_lut[tlv_codec_name][tlv_data_raw_unsigned_int:tonumber()] or "???")
+        local tlv_content_tree = tlv_tree:add("Content", tlv_data)
+
+        local codecLength = tlv_codec_length or tlv_length
+        local tlv_len_int = tlv_length
+
+        local remainder = tlv_length % codecLength
+
+        if remainder > 0 then
+            -- Clean length of data that can be processed
+            tlv_len_int = tlv_len_int - remainder
+
+            -- Add note, that the codec length did not perfectly match a fields length.
+            tlv_tree:add_tvb_expert_info(expert_tlv_codec_length_warn, buffer(cur_tlv_byte + tlv_len_int, remainder))
+        end
+
+        local occurences = tlv_len_int / codecLength
+
+        for i = 0, occurences - 1 do
+            local codec_data = tlv_data:range(i * codecLength, codecLength)
+            local codec_data_uint = codec_data:le_uint64()
+            local asstring_lut_value = asstring_lut[tlv_codec_name][codec_data_uint:tonumber()]
+
+            tlv_content_tree:add(tlv_data_codec_asstring_value_field, codec_data, codec_data_uint, asstring_lut_value or "???")
+        end
     else
         tlv_tree:add("Content: Unknown (no parser available)", tlv_data)
     end
