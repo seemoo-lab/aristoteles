@@ -1,6 +1,6 @@
 <div align="center">
     <br><br>
-    <img src="assets/logo.png" alt="ARIstoteles logo" width="40%">
+    <img src="assets/logo.png" alt="ARIstoteles logo" width="50%">
     <br>
     ARI - Wireshark - Dissector
     <br>
@@ -10,13 +10,13 @@
 
 This repo contains a Wireshark dissector for the Apple Remote Invocation (ARI) protocol, used between Intel baseband chips and the
 iOS CommCenter for various management purposes, SMS, telephony and much more. Since it is a management interface, some
-information is using otherinterfaces, such as audio from calls or network traffic.
+information is using other interfaces, such as audio from calls or network traffic.
 Only Intel basebands support ARI, Qualcomm basebands use QMI.
 Some iPhones were produced with both chip flavors, depending on the region. These
 scripts were tested on an iPhone 11, SE 2020, 8, and 7. The iPhone 12 is Qualcomm only, even though Apple acquired
 the baseband division of Intel recently. More information what ARI does can be found in the rC3 talk
 [Fuzzing the phone in the iPhone](https://media.ccc.de/v/rc3-11358-fuzzing_the_phone_in_the_iphone)
-as well as our upcoming ESORICS paper *ARIstoteles - Dissecting Apple's Baseband Interface*.
+as well as our ESORICS paper *ARIstoteles - Dissecting Apple's Baseband Interface*.
 After successful installation and packet capture, the output looks as follows:
 
 ![SMS](assets/wireshark_sms.png)
@@ -31,9 +31,9 @@ After successful installation and packet capture, the output looks as follows:
    If this is already mapped, you may also choose any other ID and it should work (untested) by replacing `USER_0` with your mapping in the following sections.
 3. All set! Let's start dissecting some ARI packets!
 
-Tested on Wireshark v3.4.4 with Lua 5.2.4.  
+Tested on Wireshark v3.6.0 with Lua 5.2.4.  
 
-Currently contains extracted types and information from iOS version: 14.5
+Currently contains extracted types and information from iOS version: 14.6
 
 ## Usage
 

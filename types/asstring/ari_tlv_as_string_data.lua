@@ -1,4 +1,4 @@
---- AUTO GENERATED OUTPUT from Ghidra script "ari-asstring-extractor.py" on 2021-04-23_15:57:59 
+--- AUTO GENERATED OUTPUT from Ghidra script "ari-asstring-extractor.py" on 2021-11-28_20:57:45 
 return {
     ["IBIAccFreqReportingType"] = {
         [0] = "IBI_FREQ_REPORTING_SINGLE_SHOT",
