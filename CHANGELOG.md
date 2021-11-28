@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Changes
 - Renamed `utils.lua` to `ari_utils.lua` to prevent interference with other lua plugins
 - Added subtrees "Extra Information" and "Unknown Bits" to TLV tree to clear up the overview
+- Mark GMID and type name fields as generated, to show that they are virtual fields
 
 ### Fixes
 - Remove unknown bit 7 in byte 5 (is part of the group id) by @sterzy (#4)

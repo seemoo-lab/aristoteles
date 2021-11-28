@@ -348,8 +348,9 @@ function ari.dissector(buffer, pinfo, tree)
     packet.pinfo.cols.info:set(pkt_type_name)
     packet.pinfo.cols.info:fence()
 
-    header_tree:add(pkt_type, buffer(8, 2), pkt_type_name, "Type name: " .. pkt_type_name)
     header_tree:add(pkt_type_id, buffer(8, 2), pkt_type_int, "Type id: " .. pkt_type_int .. " (" .. string.format("0x%03x", pkt_type_int) .. ")")
+    local pkt_type_item = header_tree:add(pkt_type, buffer(8, 2), pkt_type_name, "Type name: " .. pkt_type_name)
+    pkt_type_item:set_generated(true)
     packet.type = pkt_type_name
     packet.type_int = pkt_type_int
 
@@ -387,7 +388,8 @@ function ari.dissector(buffer, pinfo, tree)
     -- the "gmid" is a virtual id consisting of the type (or "mid") and group ("gid")
     local gmid = bit32.bor(bit32.lshift(pkt_group_int, 26), bit32.lshift(pkt_type_int, 15))
 
-    header_tree:add(pkt_gmid, buffer(4, 6), gmid, "Gm id (Group + Type): " .. gmid .. " (" .. string.format("0x%08x", gmid) .. ")")
+    local gmid_item = header_tree:add(pkt_gmid, buffer(4, 6), gmid, "Gmid (Group + Type): " .. gmid .. " (" .. string.format("0x%08x", gmid) .. ")")
+    gmid_item:set_generated(true)
     packet.gmid = gmid
 
     -- Unknown bits/bytes
