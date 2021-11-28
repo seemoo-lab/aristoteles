@@ -12,7 +12,7 @@ class IntelCustomPacket:
     Creates a packet and injects the created packet via frida.
     """
 
-    def __init__(self, ios_symbols="arm64_14.6", log=True, dir_bb=False, ari_seq=None, ari_grp=None, ari_type=None, ari_trx=None, ari_length=None, ari_tlvs=None, ari_custom_bits=None):
+    def __init__(self, ios_symbols="arm64_14.6", log=True, dir_bb=False, ari_seq=None, ari_grp=None, ari_message_id=None, ari_trx=None, ari_length=None, ari_tlvs=None, ari_custom_bits=None):
         self.ios_symbols = ios_symbols
         self.log = log
         self.to_baseband = dir_bb
@@ -45,11 +45,11 @@ class IntelCustomPacket:
 
             self.custom_packet.group = ari_grp
 
-        if ari_type is not None:
+        if ari_message_id is not None:
             if self.log:
-                print("  --> Setting type to " + str(ari_type))
+                print("  --> Setting message id to " + str(ari_message_id))
 
-            self.custom_packet.type = ari_type
+            self.custom_packet.message_id = ari_message_id
 
         if ari_tlvs is not None:
             for tlv in ari_tlvs:
@@ -135,7 +135,9 @@ if __name__ == "__main__":
 
     arg_parser.add_argument("-g", "--group", type=int, required=False, help="Sets the group id for the packet.")
 
-    arg_parser.add_argument("-t", "--type", type=int, required=False, help="Sets the type id for the packet.")
+    arg_parser.add_argument("-t", "--type", type=int, required=False, help="Sets the message id for the packet.")
+
+    arg_parser.add_argument("-m", "--mid", type=int, required=False, help="Sets the message id for the packet.")
 
     arg_parser.add_argument("-l", "--length", type=int, required=False, help="Sets the length for the packet (is otherwise calculated automatically!).")
 
@@ -147,7 +149,7 @@ if __name__ == "__main__":
 
     args = arg_parser.parse_args()
 
-    icp = IntelCustomPacket(ios_symbols=args.symbols, log=not args.silent, dir_bb=args.to_baseband, ari_seq=args.seq_num, ari_grp=args.group, ari_type=args.type, ari_length=args.length, ari_trx=args.transaction, ari_tlvs=args.tlv, ari_custom_bits=args.custom_bits)
+    icp = IntelCustomPacket(ios_symbols=args.symbols, log=not args.silent, dir_bb=args.to_baseband, ari_seq=args.seq_num, ari_grp=args.group, ari_message_id=args.type or args.mid, ari_length=args.length, ari_trx=args.transaction, ari_tlvs=args.tlv, ari_custom_bits=args.custom_bits)
 
     print("  Injecting custom packet...")
     print("  Packet:")

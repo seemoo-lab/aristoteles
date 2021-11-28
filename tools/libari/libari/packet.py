@@ -11,7 +11,9 @@ class Packet:
 
     def __init__(self):
         self.group = 0
-        self.type = 0
+        # Deprecated please use message_id
+        self.type = None
+        self.message_id = 0
         self.length = None
         self.seq = 0
         self.trx = 0
@@ -34,12 +36,14 @@ class Packet:
 
             packet.seq = seq_num
 
-        # Extract type id
+        # Extract message id
         if dataLen >= 9:
-            type_id = data[8] >> 6
-            type_id += data[9] << 2
+            message_id = data[8] >> 6
+            message_id += data[9] << 2
 
-            packet.type = type_id
+            packet.message_id = message_id
+            # Deprecated
+            packet.type = message_id
 
         # Extract transaction id
         if dataLen >= 12:
@@ -153,12 +157,15 @@ class Packet:
         packet_data[6] = (len_num_part_6 << 1) + (packet_data[6] & 0b0000_0001)
         packet_data[7] = len_num_part_7 >> 7
 
-        # Add type
-        type_num_part_8 = self.type & 0b00_00000011
-        type_num_part_9 = self.type & 0b11_11111100
+        # Add message_id
+        if self.type is not None:
+            self.message_id = self.type
 
-        packet_data[8] = (type_num_part_8 << 6) + (packet_data[8] & 0b0011_1111)
-        packet_data[9] = type_num_part_9 >> 2
+        message_id_num_part_8 = self.message_id & 0b00_00000011
+        message_id_num_part_9 = self.message_id & 0b11_11111100
+
+        packet_data[8] = (message_id_num_part_8 << 6) + (packet_data[8] & 0b0011_1111)
+        packet_data[9] = message_id_num_part_9 >> 2
 
         # Add transaction
         trx_num_part_10 = self.trx & 0b000_0000_0111_1111

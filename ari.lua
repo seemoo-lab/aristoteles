@@ -18,12 +18,12 @@ ari = Proto("ari", "ari protocol")
 
 -- Header fields
 proto_flag = ProtoField.bytes("ari.proto_flag", "Protocol Flag", base.SPACE)
-pkt_seq_num = ProtoField.uint16("ari.seq_num", "Sequence number", base.DEC) -- 11 bits long (?)
-pkt_group = ProtoField.uint8("ari.gid", "Group ID", base.DEC)
-pkt_type_id = ProtoField.uint16("ari.type_id", "Type", base.DEC)
-pkt_type = ProtoField.string("ari.type")
+pkt_seq_num = ProtoField.uint16("ari.seq_num", "Sequence number", base.DEC)
+pkt_group = ProtoField.uint8("ari.gid", "Group ID (gid)", base.DEC)
+pkt_message_id = ProtoField.uint16("ari.message_id", "Message ID (mid)", base.DEC)
+pkt_message_name = ProtoField.string("ari.message_name", "Message Name")
 pkt_len = ProtoField.uint16("ari.length", "Length", base.DEC)
-pkt_trx = ProtoField.uint16("ari.transaction", "Transaction", base.DEC)
+pkt_trx = ProtoField.uint16("ari.transaction", "Transaction (trx or ctx)", base.DEC)
 pkt_ack_opt = ProtoField.uint8("ari.ack_opt", "Acknowledgement Option", base.DEC)
 pkt_gmid = ProtoField.uint32("ari.gmid", "GMID (Combination of Group and Type)", base.DEC)
 
@@ -33,7 +33,7 @@ pkt_unknown_8 = ProtoField.uint8("ari.unknown_8", "Unknown (Byte 8, Bit 2-3)", b
 pkt_unknown_10 = ProtoField.uint8("ari.unknown_10", "Unknown (Byte 10, Bit 7)", base.DEC)
 
 -- TLV Header fields
-tlv_id_field = ProtoField.uint16("ari.tlv.id", "TLV id", base.DEC)
+tlv_id_field = ProtoField.uint16("ari.tlv.id", "TLV id (tid)", base.DEC)
 tlv_mandatory_field = ProtoField.bool("ari.tlv.mandatory", "TLV mandatory")
 tlv_codec_name_field = ProtoField.string("ari.tlv.codec.name", "TLV codec name")
 tlv_type_desc_field = ProtoField.string("ari.tlv.type_desc", "TLV type description")
@@ -57,7 +57,7 @@ expert_too_small = ProtoExpert.new("ari.minimum_length", "ARI: Packet is smaller
 expert_missing_mandatory_tlv = ProtoExpert.new("ari.missing_mandatory_tlv", "ARI: Missing mandatory TLV", expert.group.MALFORMED, expert.severity.ERROR)
 expert_tlv_codec_length_warn = ProtoExpert.new("ari.tlv_codec_length_warn", "ARI: Specified codec length did not perfectly fit into this field (some bytes at the end were cut-off).", expert.group.MALFORMED, expert.severity.WARN)
 
-ari.fields = { proto_flag, pkt_seq_num, pkt_group, pkt_type, pkt_type_id, pkt_len, pkt_trx, pkt_ack_opt, pkt_gmid, -- Header fields
+ari.fields = { proto_flag, pkt_seq_num, pkt_group, pkt_message_name, pkt_message_id, pkt_len, pkt_trx, pkt_ack_opt, pkt_gmid, -- Header fields
                 pkt_unknown_4, pkt_unknown_8, pkt_unknown_10,
                 tlv_id_field, tlv_mandatory_field, tlv_codec_name_field, tlv_type_desc_field, tlv_version_field, tlv_length_field, tlv_data_field, tlv_data_uint_field, tlv_data_codec_asstring_value_field, tlv_unknown_0, tlv_unknown_2,
               }
@@ -86,7 +86,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
     -- -      ?               ??
     -- XXXXXXXX_XXXXXXXX_XXXXXXX_XXXXXXXX (variable length data)
     -- \_____/? \_/\___/ \___/?? \______/ 
-    --  Type     |  Type   \ Length /
+    --    ID     |  ID     \ Length /
     --       Version 
 
     local buffer = packet.buffer
@@ -115,7 +115,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
         tlv_id_extra_info = " (Not specified as an expected ID in libARI.dylib)"
     end
 
-    tlv_tree:add(tlv_id_field, buffer(cur_tlv_byte, 2), tlv_id, "ID: " .. tlv_id .. tlv_id_extra_info)
+    tlv_tree:add(tlv_id_field, buffer(cur_tlv_byte, 2), tlv_id, "ID (tid): " .. tlv_id .. tlv_id_extra_info)
 
     local tlv_codec_name = tlv_information and tlv_information.codec and tlv_information.codec.name or nil
     local tlv_codec_length = tlv_information and tlv_information.codec and tlv_information.codec.length or nil
@@ -182,7 +182,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
         extra_information_tree:add(tlv_data_uint_field, tlv_data, tlv_data_raw_unsigned_int, "Raw TLV data (uint): " .. tlv_data_raw_unsigned_int)
     end
 
-    local available_tlv_parsers = table.GetWithPath(tlv_parsers, { packet.group_int, packet.type_int, tlv.id })
+    local available_tlv_parsers = table.GetWithPath(tlv_parsers, { packet.group_int, packet.message_id, tlv.id })
     local available_codec_parsers = tlv_codec_name and table.GetWithPath(codec_parsers, { tlv_codec_name }) or nil
     local extra_information = {
         asstring = asstring_lut,
@@ -280,7 +280,7 @@ function ari.dissector(buffer, pinfo, tree)
     -- 0  1  2  3  4        5        6       7        8        9        10       11
     -- DE C0 7E AB XXXXXXXX_XXXXXXXX_XXXXXXX_XXXXXXXX_XXXXXXXX_XXXXXXXX_XXXXXXXX_XXXXXXXX (variable length data)
     -- \_________/ \___/??? \_____/| \____/| \______/ \/??|\_/ \______/ \_____/? \______/ 
-    --  INDICATOR  GROUP      SEQ GRP LEN SEQ  LEN   TYPE A SEQ  TYPE     TRX      TRX
+    --  INDICATOR  GROUP      SEQ GRP LEN SEQ  LEN   MID  A SEQ   MID     TRX      TRX
     --
 
     local packet = {}
@@ -330,29 +330,34 @@ function ari.dissector(buffer, pinfo, tree)
 
     local pkt_group_name = structure_lut[pkt_group_int] and structure_lut[pkt_group_int]["name"] or "???"
 
-    header_tree:add(pkt_group, buffer(4, 2), pkt_group_int, "Group: " .. pkt_group_name .. " (" .. pkt_group_int .. ")")
+    header_tree:add(pkt_group, buffer(4, 2), pkt_group_int, "Group (gid): " .. pkt_group_name .. " (" .. pkt_group_int .. ")")
     packet.group = pkt_group_name
     packet.group_int = pkt_group_int
 
     --- Packet type
-    local pkt_type_int = 0
-    local pkt_type_int_9 = buffer(9, 1):uint()
-    local pkt_type_int_8 = buffer(8, 1):bitfield(0, 2)
+    local pkt_message_id_int = 0
+    local pkt_message_id_int_9 = buffer(9, 1):uint()
+    local pkt_message_id_int_8 = buffer(8, 1):bitfield(0, 2)
 
-    pkt_type_int = bit32.rshift(pkt_type_int_9, -2) + pkt_type_int_8
+    pkt_message_id_int = bit32.rshift(pkt_message_id_int_9, -2) + pkt_message_id_int_8
 
-    local pkt_type_name = structure_lut[pkt_group_int] and structure_lut[pkt_group_int][pkt_type_int] and structure_lut[pkt_group_int][pkt_type_int].name or string.format("Unknown (Group: %d, ID: 0x%03x)", pkt_group_int, pkt_type_int)
+    local pkt_message_name_string = structure_lut[pkt_group_int] and structure_lut[pkt_group_int][pkt_message_id_int] and structure_lut[pkt_group_int][pkt_message_id_int].name or string.format("Unknown (GID: %d, MID: 0x%03x)", pkt_group_int, pkt_message_id_int)
 
     -- set this name into the info column
     -- taken from https://osqa-ask.wireshark.org/questions/34726/lua-script-update-info-field
-    packet.pinfo.cols.info:set(pkt_type_name)
+    packet.pinfo.cols.info:set(pkt_message_name_string)
     packet.pinfo.cols.info:fence()
 
-    header_tree:add(pkt_type_id, buffer(8, 2), pkt_type_int, "Type id: " .. pkt_type_int .. " (" .. string.format("0x%03x", pkt_type_int) .. ")")
-    local pkt_type_item = header_tree:add(pkt_type, buffer(8, 2), pkt_type_name, "Type name: " .. pkt_type_name)
-    pkt_type_item:set_generated(true)
-    packet.type = pkt_type_name
-    packet.type_int = pkt_type_int
+    header_tree:add(pkt_message_id, buffer(8, 2), pkt_message_id_int, "Message ID (mid): " .. pkt_message_id_int .. " (" .. string.format("0x%03x", pkt_message_id_int) .. ")")
+    local pkt_message_name_item = header_tree:add(pkt_message_name, buffer(8, 2), pkt_message_name_string, "Message name: " .. pkt_message_name_string)
+    pkt_message_name_item:set_generated(true)
+
+    packet.message_name = pkt_message_name_string
+    packet.message_id = pkt_message_id_int
+
+    -- deprecated
+    packet.type = pkt_message_name_string
+    packet.type_int = pkt_message_id_int
 
     --- Packet length
     local pkt_length = 0
@@ -375,7 +380,7 @@ function ari.dissector(buffer, pinfo, tree)
     pkt_transaction = bit32.rshift(pkt_trx_10, 1) -- Right shift, to ignore the last bit 
     pkt_transaction = pkt_transaction + bit32.lshift(pkt_trx_11, 7) -- Shift left for 7 bits to concatenate bits
 
-    header_tree:add(pkt_trx, buffer(10, 2), pkt_transaction, "Transaction: " .. pkt_transaction .. " (" .. string.format("0x%08x", pkt_transaction) .. ")")
+    header_tree:add(pkt_trx, buffer(10, 2), pkt_transaction, "Transaction (trx/ctx): " .. pkt_transaction .. " (" .. string.format("0x%08x", pkt_transaction) .. ")")
     packet.trx = pkt_trx
 
     --- Acknowledgement Option
@@ -385,10 +390,10 @@ function ari.dissector(buffer, pinfo, tree)
     packet.ack_opt = ack_opt
 
     --- Virtual field GMID
-    -- the "gmid" is a virtual id consisting of the type (or "mid") and group ("gid")
-    local gmid = bit32.bor(bit32.lshift(pkt_group_int, 26), bit32.lshift(pkt_type_int, 15))
+    -- the "gmid" is a virtual id consisting of the message id (or "mid") and group ("gid")
+    local gmid = bit32.bor(bit32.lshift(pkt_group_int, 26), bit32.lshift(pkt_message_id_int, 15))
 
-    local gmid_item = header_tree:add(pkt_gmid, buffer(4, 6), gmid, "Gmid (Group + Type): " .. gmid .. " (" .. string.format("0x%08x", gmid) .. ")")
+    local gmid_item = header_tree:add(pkt_gmid, buffer(4, 6), gmid, "Gmid (Group + Message ID): " .. gmid .. " (" .. string.format("0x%08x", gmid) .. ")")
     gmid_item:set_generated(true)
     packet.gmid = gmid
 
@@ -401,7 +406,7 @@ function ari.dissector(buffer, pinfo, tree)
     --- DATA
     -- Is there even more data?
     if packet.total_length > 12 then
-        local message_type_info = structure_lut[packet.group_int] and structure_lut[packet.group_int][packet.type_int] or nil
+        local message_type_info = structure_lut[packet.group_int] and structure_lut[packet.group_int][packet.message_id] or nil
 
         local data_tree = ari_tree:add(buffer(12), "Data")
         packet.tlvs = {}

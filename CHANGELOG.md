@@ -13,6 +13,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - AsString codec resolver can now also resolve lists of enums, thanks to the codec length extraction
 
 ### Changes
+- Renamed Type and Type Name fields to Message ID and Message Name, to match their names inside `libARI.dylib`
+    - Those were also renamed in `libari`, but all are backwards compatible and still accessible via `packet.type`
+    - BREAKING: Existing Wireshark filters and the field identifiers, because they have also changed
+    - The argument to modify the type for the `inject_custom_packet.py` script was also changed from `--type` to `--mid`
+        - The `--type` argument is still available for backwards compatibility
+- Added short identifiers for various fields like "gid" for the group or "mid" for the message ID to match log output and identifiers found in `libARI.dylib`
 - Renamed `utils.lua` to `ari_utils.lua` to prevent interference with other lua plugins
 - Added subtrees "Extra Information" and "Unknown Bits" to TLV tree to clear up the overview
 - Mark GMID and type name fields as generated, to show that they are virtual fields
