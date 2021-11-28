@@ -99,8 +99,6 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
 
     local tlv_header_buffer = buffer(cur_tlv_byte, 4)
 
-    tlv_tree:add("Starts at byte: " .. cur_tlv_byte)
-
     -- Bit 8 or the rightmost bit is still unknown
     local tlv_id_1 = tlv_header_buffer:bitfield(0, 7)
     local tlv_id_2 = tlv_header_buffer:bitfield(11, 5)
@@ -149,11 +147,12 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
     tlv.length = tlv_length
     cur_tlv_byte = cur_tlv_byte + 2
 
+    -- Unknown tree containing all still unknown bits
+    local unknown_tree = tlv_tree:add("Unknown bits")
     -- Unknown Byte 0, bit 7
-    tlv_tree:add(tlv_unknown_0, tlv_header_buffer:range(0, 1), tlv_header_buffer:bitfield(7, 1), "Unknown Byte 0, Bit 7: " .. tlv_header_buffer:bitfield(7, 1))
-
+    unknown_tree:add(tlv_unknown_0, tlv_header_buffer:range(0, 1), tlv_header_buffer:bitfield(7, 1), "Unknown Byte 0, Bit 7: " .. tlv_header_buffer:bitfield(7, 1))
     -- Unkown Byte 2, bits 6-7
-    tlv_tree:add(tlv_unknown_2, tlv_header_buffer:range(2, 1), tlv_header_buffer:bitfield(22, 2), "Unknown Byte 2, Bits 6-7: " .. tlv_header_buffer:bitfield(22, 2))
+    unknown_tree:add(tlv_unknown_2, tlv_header_buffer:range(2, 1), tlv_header_buffer:bitfield(22, 2), "Unknown Byte 2, Bits 6-7: " .. tlv_header_buffer:bitfield(22, 2))
 
     -- Return if there is no data associated with the TLV
     if tlv_length <= 0 then
@@ -168,7 +167,11 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
 
     local tlv_data = buffer(cur_tlv_byte, tlv_length)
 
-    tlv_tree:add(tlv_data_field, tlv_data)
+    -- Further helpful data
+    local extra_information_tree = tlv_tree:add("Extra Information")
+
+    -- Add the raw bytes as a field to quickly identify fields encoding by manual analysis
+    extra_information_tree:add(tlv_data_field, tlv_data)
 
     -- For matching / fuzzing purposes add a simple uint field for all TLVs that are max. 8 bytes long (most status/flag TLVs are).
     -- This helps to quickly match those to strings and their value in Ghidra / the binary
@@ -176,7 +179,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
     if tlv_length <= 8 then
         tlv_data_raw_unsigned_int = tlv_data:le_uint64()
 
-        tlv_tree:add(tlv_data_uint_field, tlv_data, tlv_data_raw_unsigned_int, "Raw TLV data (uint): " .. tlv_data_raw_unsigned_int)
+        extra_information_tree:add(tlv_data_uint_field, tlv_data, tlv_data_raw_unsigned_int, "Raw TLV data (uint): " .. tlv_data_raw_unsigned_int)
     end
 
     local available_tlv_parsers = table.GetWithPath(tlv_parsers, { packet.group_int, packet.type_int, tlv.id })
@@ -261,7 +264,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
             local codec_data_uint = codec_data:le_uint64()
             local asstring_lut_value = asstring_lut[tlv_codec_name][codec_data_uint:tonumber()]
 
-            tlv_content_tree:add(tlv_data_codec_asstring_value_field, codec_data, codec_data_uint, asstring_lut_value or "???")
+            tlv_content_tree:add(tlv_data_codec_asstring_value_field, codec_data, codec_data_uint, (asstring_lut_value or "???") .. " (" .. codec_data_uint .. ")")
         end
     else
         tlv_tree:add("Content: Unknown (no parser available)", tlv_data)
