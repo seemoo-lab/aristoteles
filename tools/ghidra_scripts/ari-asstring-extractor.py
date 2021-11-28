@@ -124,7 +124,7 @@ class Resolver:
         print("* Saved output to: " + os.path.realpath(self.luaOutputDir))
 
     def writeResult(self, result):
-        self.luaOutputFile = open(self.luaOutputDir + "/ari_tlv_as_string_data.lua", "w", encoding="utf-8")
+        self.luaOutputFile = open(self.luaOutputDir + "/ari_tlv_as_string_data.lua", "w")
         self.luaOutputFile.write("--- AUTO GENERATED OUTPUT from Ghidra script \"ari-asstring-extractor.py\" on {date:%Y-%m-%d_%H:%M:%S} \n".format( date=datetime.datetime.now() ))
         self.luaOutputFile.write("return {\n")
 

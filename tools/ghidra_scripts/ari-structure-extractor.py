@@ -62,7 +62,7 @@ class Analyzer:
             curGroupId = curGroupId + 1
             curGroupPtr = groupDefAddr.add(curGroupId * 8)
 
-        self.luaOutputFile = open(self.luaOutputDir + "/ari_types.lua", "w", encoding="utf-8")
+        self.luaOutputFile = open(self.luaOutputDir + "/ari_types.lua", "w")
         self.luaOutputFile.write("--- AUTO GENERATED OUTPUT from Ghidra script \"ari-structure-extractor.py\" on {date:%Y-%m-%d_%H:%M:%S} \n".format( date=datetime.datetime.now() ))
         self.luaOutputFile.write("return {\n")
 
