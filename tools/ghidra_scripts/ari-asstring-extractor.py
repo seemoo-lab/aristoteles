@@ -14,6 +14,7 @@ from ghidra.util.task import ConsoleTaskMonitor
 from ghidra.program.model.pcode import PcodeOp
 from ghidra.program.model.scalar import Scalar
 from ghidra.program.model.data import Pointer40DataType
+from ghidra.program.model.address import Address
 from ghidra.app.emulator import EmulatorHelper
 
 import binascii
@@ -40,11 +41,6 @@ class Resolver:
         return None
 
     def analyze(self):
-        # Initialize output directory
-        self.luaOutputDir = os.path.realpath(self.rootDir + 'ari-asstring-extractor-output-{date:%Y-%m-%d_%H:%M:%S}'.format( date=datetime.datetime.now() ))
-        if not os.path.exists(self.luaOutputDir):
-            os.mkdir(self.luaOutputDir)
-
         # Initialize variables and interfaces
         self.listing = currentProgram.getListing()
         fm = currentProgram.getFunctionManager()
@@ -75,7 +71,11 @@ class Resolver:
 
             # Check for pointer symbols in params to exclude asString(void*) functions
             if '*' in paramName:
-                print("\tGot asString(" + paramName + ") skipping!")
+                print(paramName)
+                print(func.getEntryPoint().toString(False))
+                
+                print("\tGot Pointer in asString(" + paramName + ") skipping!")
+                
                 continue
 
             self.countStringFunctions += 1
@@ -121,11 +121,14 @@ class Resolver:
                 paramName = func.getParameter(0).getFormalDataType().getName()
                 print("\t" + paramName + " - Location: " + func.getEntryPoint().toString(False))
 
-        print("* Saved output to: " + os.path.realpath(self.luaOutputDir))
-
     def writeResult(self, result):
-        self.luaOutputFile = open(self.luaOutputDir + "/ari_tlv_as_string_data.lua", "w")
-        self.luaOutputFile.write("--- AUTO GENERATED OUTPUT from Ghidra script \"ari-asstring-extractor.py\" on {date:%Y-%m-%d_%H:%M:%S} \n".format( date=datetime.datetime.now() ))
+        # Initialize output directory
+        self.luaOutputDir = os.path.realpath(self.rootDir + 'ari-asstring-extractor-output-{program}-{date:%Y-%m-%d_%H:%M:%S}'.format( program=currentProgram.getName(), date=datetime.datetime.now() ))
+        if not os.path.exists(self.luaOutputDir):
+            os.mkdir(self.luaOutputDir)
+        
+        self.luaOutputFile = open(self.luaOutputDir + "/as_string_data.lua", "w")
+        self.luaOutputFile.write("--- AUTO GENERATED OUTPUT for program '{program}' from Ghidra script \"ari-asstring-extractor.py\" on {date:%Y-%m-%d_%H:%M:%S} \n".format( program=currentProgram.getName(), date=datetime.datetime.now() ))
         self.luaOutputFile.write("return {\n")
 
         for method in result:
@@ -138,6 +141,8 @@ class Resolver:
 
         self.luaOutputFile.write("}\n")
         self.luaOutputFile.close()
+        
+        print("* Saved output to: " + os.path.realpath(self.luaOutputDir))
 
     def extractNotIfReference(self, hFunc):
         result = []
@@ -228,9 +233,46 @@ class Resolver:
 
             for n in range((- leftSideAdditionalAdd + (- leftSideAdditionalSub)), cmpLessNum - leftSideAdditionalAdd + (- leftSideAdditionalSub)):
                 addr = pointerAddr.add(8 * (n + leftSideAdditionalAdd + leftSideAdditionalSub))
-                removeDataAt(addr)
-                dataObj = self.listing.createData(addr, Pointer40DataType())
-                resolvedString = getDataAt(dataObj.getValue()).getValue()
+                
+                if (addr == Address.NO_ADDRESS or addr.add(4) == Address.NO_ADDRESS):
+                    print("\t! {} is an invalid address or cannot contain a pointer (5 bytes), skipping".format( addr.toString(False) ))
+                    continue
+                
+                dataExistsContainingAddress = getDataContaining(addr) != None
+                dataExistsContainingAddress |= getDataContaining(addr.add(1)) != None
+                dataExistsContainingAddress |= getDataContaining(addr.add(2)) != None
+                dataExistsContainingAddress |= getDataContaining(addr.add(3)) != None
+                dataExistsContainingAddress |= getDataContaining(addr.add(4)) != None
+                
+                dataAtAddress = getDataAt(addr)
+                dataExistsAtAddress = dataAtAddress != None
+                
+                if (dataExistsContainingAddress and not dataExistsAtAddress):
+                    print("\t! Skipping, because we would break another data definition that overlaps at {}".format(addr.toString(False)))
+                    continue
+                
+                if (dataExistsAtAddress and not dataAtAddress.getDataType().toString() == Pointer40DataType.dataType.toString()):
+                    print("\t! Skipping, because we would remove another existing data definition at {}".format(addr.toString(False)))
+                    continue
+                
+                weCreatedData = False
+                if (not dataExistsAtAddress):
+                    dataAtAddress = self.listing.createData(addr, Pointer40DataType())
+                    weCreatedData = True
+                
+                if (dataAtAddress is None):
+                    print("\t! Could not get data object at {}, skipping".format( addr.toString(False) ))
+                    continue
+                
+                ptrDataObj = getDataAt(dataAtAddress.getValue())   
+                
+                if (ptrDataObj is None):
+                    print("\t! Could not get pointer data object at {}, skipping".format( addr.toString(False) ))
+                    if (weCreatedData):
+                        removeDataAt(addr)
+                    continue
+                
+                resolvedString = ptrDataObj.getValue()
                 result.append((n, resolvedString))
 
             return len(result) > 0, result
