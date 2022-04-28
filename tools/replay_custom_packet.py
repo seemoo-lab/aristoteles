@@ -13,7 +13,7 @@ class IntelCustomPacket:
     Replays a packet and adjusts given fields, and is able to adjust fields in a type aware manner.
     """
 
-    def __init__(self, filename, ios_symbols="arm64_13.7", log=True, seq_num=None, ari_grp=None, ari_type=None, custom_bytes=None, custom_bits=None, bit_flips=None):
+    def __init__(self, filename, ios_symbols="arm64e_14.8", log=True, seq_num=None, ari_grp=None, ari_type=None, custom_bytes=None, custom_bits=None, bit_flips=None):
         self.ios_symbols = ios_symbols
         self.log = log
 
@@ -181,7 +181,7 @@ if __name__ == "__main__":
 
     arg_parser.add_argument("File", type=str, help="The file to use as a base for this replay")
 
-    arg_parser.add_argument("--symbols", type=str, nargs='?', default='arm64_14.6', help="Specify the version / symbols to use eg. arm64_14.6")
+    arg_parser.add_argument("--symbols", type=str, nargs='?', default='arm64e_14.8', help="Specify the version / symbols to use eg. arm64_14.6")
 
     arg_parser.add_argument("-s", "--seq-num", type=int, required=False, help="Override the sequence number for the packet.")
 

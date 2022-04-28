@@ -12,7 +12,7 @@ class IntelCustomPacket:
     Creates a packet and injects the created packet via frida.
     """
 
-    def __init__(self, ios_symbols="arm64_14.6", log=True, dir_bb=False, ari_seq=None, ari_grp=None, ari_message_id=None, ari_trx=None, ari_length=None, ari_tlvs=None, ari_custom_bits=None):
+    def __init__(self, ios_symbols="arm64e_14.8", log=True, dir_bb=False, ari_seq=None, ari_grp=None, ari_message_id=None, ari_trx=None, ari_length=None, ari_tlvs=None, ari_custom_bits=None):
         self.ios_symbols = ios_symbols
         self.log = log
         self.to_baseband = dir_bb
@@ -127,7 +127,7 @@ if __name__ == "__main__":
 
     arg_parser.add_argument("-d", "--dry-run", action='store_true', help="Will only output the packet instead of injecting it.")
 
-    arg_parser.add_argument("--symbols", type=str, nargs='?', default='arm64_14.6', help="Specify the version / symbols to use eg. arm64_14.6")
+    arg_parser.add_argument("--symbols", type=str, nargs='?', default='arm64e_14.8', help="Specify the version / symbols to use eg. arm64_14.6")
 
     arg_parser.add_argument("-b", "--to-baseband", action='store_true', help="Send this packet to the baseband instead of the commcenter.")
 

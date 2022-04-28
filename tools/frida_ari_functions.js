@@ -185,6 +185,12 @@ class ARIFunctions {
       
       console.log("  * Set symbols to A12+ iOS 14.6");
     }
+    else if (ios_version == "arm64e_14.8") {
+      this._GetInstance_result = this._ARIServer_base.add(0x10567530);
+      this._SeqNumVar = this._GetInstance_result.add(0x8);
+      
+      console.log("  * Set symbols to A12+ iOS 14.8");
+    }
   }
 
   setIntercept(val) {
