@@ -104,7 +104,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
     local tlv_id_2 = tlv_header_buffer:bitfield(11, 5)
 
     -- TLV ID
-    local tlv_id = tlv_id_1 + bit32.rshift(tlv_id_2, -7) -- shift left to concatenate number correctly as found in the logs
+    local tlv_id = tlv_id_1 + (tlv_id_2 >> -7) -- shift left to concatenate number correctly as found in the logs
     local tlv = {}
     tlv.id = tlv_id
 
@@ -141,7 +141,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
     -- TLV Length
     local tlv_length_1 = tlv_header_buffer:bitfield(16, 6)
     local tlv_length_2 = tlv_header_buffer:bitfield(24, 8)
-    local tlv_length = tlv_length_1 + bit32.rshift(tlv_length_2, -6)
+    local tlv_length = tlv_length_1 + (tlv_length_2 >> -6)
 
     tlv_tree:add(tlv_length_field, buffer(cur_tlv_byte, 2), tlv_length, "Length: " .. tlv_length)
     tlv.length = tlv_length
@@ -318,15 +318,15 @@ function ari.dissector(buffer, pinfo, tree)
     local seq_num_8 = buffer(8, 1):bitfield(5, 3) -- extract last 3 bits from byte 8
 
     seq_num = seq_num_5
-    seq_num = seq_num + bit32.rshift(seq_num_6, -7)
-    seq_num = seq_num + bit32.rshift(seq_num_8, -8)
+    seq_num = seq_num + (seq_num_6 >> -7)
+    seq_num = seq_num + (seq_num_8 >> -8)
 
     header_tree:add(pkt_seq_num, buffer(5, 4), seq_num, "Sequence Number: " .. seq_num)
     packet.seq_num = seq_num
 
     --- Packet Group ID
     local pkt_group_int = buffer(4, 1):bitfield(0, 5)
-    pkt_group_int = pkt_group_int + bit32.rshift(buffer(5, 1):bitfield(7, 1), -5)
+    pkt_group_int = pkt_group_int + (buffer(5, 1):bitfield(7, 1) >> -5)
 
     local pkt_group_name = structure_lut[pkt_group_int] and structure_lut[pkt_group_int]["name"] or "???"
 
@@ -339,7 +339,7 @@ function ari.dissector(buffer, pinfo, tree)
     local pkt_message_id_int_9 = buffer(9, 1):uint()
     local pkt_message_id_int_8 = buffer(8, 1):bitfield(0, 2)
 
-    pkt_message_id_int = bit32.rshift(pkt_message_id_int_9, -2) + pkt_message_id_int_8
+    pkt_message_id_int = (pkt_message_id_int_9 >> -2) + pkt_message_id_int_8
 
     local pkt_message_name_string = structure_lut[pkt_group_int] and structure_lut[pkt_group_int][pkt_message_id_int] and structure_lut[pkt_group_int][pkt_message_id_int].name or string.format("Unknown (GID: %d, MID: 0x%03x)", pkt_group_int, pkt_message_id_int)
 
@@ -365,8 +365,8 @@ function ari.dissector(buffer, pinfo, tree)
     local pkt_len_6 = buffer(6, 1):bitfield(0, 8) -- extract bits from byte 6
     local pkt_len_7 = buffer(7, 1):bitfield(0, 8) -- extract bits from byte 7
 
-    pkt_length = bit32.rshift(pkt_len_6, 1) -- Right shift, to ignore the last bit (used by sequence number above)
-    pkt_length = pkt_length + bit32.rshift(pkt_len_7, -7) -- Shift left for 7 bits to concatenate bits
+    pkt_length = (pkt_len_6 >> 1) -- Right shift, to ignore the last bit (used by sequence number above)
+    pkt_length = pkt_length + (pkt_len_7 >> -7) -- Shift left for 7 bits to concatenate bits
 
     header_tree:add(pkt_len, buffer(6, 2), pkt_length, "Length: " .. pkt_length)
     packet.length = pkt_length
@@ -377,8 +377,8 @@ function ari.dissector(buffer, pinfo, tree)
     local pkt_trx_10 = buffer(10, 1):bitfield(0, 8) -- extract bits from byte 10
     local pkt_trx_11 = buffer(11, 1):bitfield(0, 8) -- extract bits from byte 11
 
-    pkt_transaction = bit32.rshift(pkt_trx_10, 1) -- Right shift, to ignore the last bit 
-    pkt_transaction = pkt_transaction + bit32.lshift(pkt_trx_11, 7) -- Shift left for 7 bits to concatenate bits
+    pkt_transaction = (pkt_trx_10 >> 1) -- Right shift, to ignore the last bit
+    pkt_transaction = pkt_transaction + (pkt_trx_11 << 7) -- Shift left for 7 bits to concatenate bits
 
     header_tree:add(pkt_trx, buffer(10, 2), pkt_transaction, "Transaction (trx/ctx): " .. pkt_transaction .. " (" .. string.format("0x%08x", pkt_transaction) .. ")")
     packet.trx = pkt_trx
@@ -391,7 +391,7 @@ function ari.dissector(buffer, pinfo, tree)
 
     --- Virtual field GMID
     -- the "gmid" is a virtual id consisting of the message id (or "mid") and group ("gid")
-    local gmid = bit32.bor(bit32.lshift(pkt_group_int, 26), bit32.lshift(pkt_message_id_int, 15))
+    local gmid = (pkt_group_int << 26) | (pkt_message_id_int << 15)
 
     local gmid_item = header_tree:add(pkt_gmid, buffer(4, 6), gmid, "Gmid (Group + Message ID): " .. gmid .. " (" .. string.format("0x%08x", gmid) .. ")")
     gmid_item:set_generated(true)
