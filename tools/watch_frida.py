@@ -138,10 +138,9 @@ class WatchFrida:
     def feedWireshark(self, data):
         packet = bytes.fromhex(data)
         length = len(packet)
-        ts_sec = (
-            int(time.time() - self.start_time)
-        )  # + timestamp.minute*60 + timestamp.hour*60*60
-        ts_usec = int(time.time() * 1000 - self.start_time * 1000)
+        packet_time = time.time()
+        ts_sec = int(packet_time)
+        ts_usec = int((packet_time % 1) * 1_000_000)
         pcap_packet = (
                 struct.pack("@ I I I I", ts_sec, ts_usec, length, length) + packet
         )

@@ -12,6 +12,7 @@ import subprocess
 from threading import Timer
 import struct
 import argparse
+from shutil import which
 
 class WatchSyslog:
     def __init__(self):
@@ -23,16 +24,14 @@ class WatchSyslog:
         self.start_time = time.time()
 
     def _spawnDeviceSyslog(self):
-        if os.path.isfile("/usr/bin/idevicesyslog"):
-            idevicesyslog_binary = "idevicesyslog"
-        else:
+        if which("idevicesyslog") is None:
             print("idevicesyslog not found!")
             return False
 
         DEVNULL = open(os.devnull, "wb")
 
         self.syslog_process = subprocess.Popen(
-            idevicesyslog_binary,
+            'idevicesyslog',
             stdout=subprocess.PIPE,
             stderr=DEVNULL,
         )
@@ -131,10 +130,9 @@ class WatchSyslog:
     def feedWireshark(self, data):
         packet = bytes.fromhex(data)
         length = len(packet)
-        ts_sec = (
-            int(time.time() - self.start_time)
-        )  # + timestamp.minute*60 + timestamp.hour*60*60
-        ts_usec = int(time.time() * 1000 - self.start_time * 1000)
+        packet_time = time.time()
+        ts_sec = int(packet_time)
+        ts_usec = int((packet_time % 1) * 1_000_000)
         pcap_packet = (
                 struct.pack("@ I I I I", ts_sec, ts_usec, length, length) + packet
         )
