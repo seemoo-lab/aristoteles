@@ -12,6 +12,7 @@ import subprocess
 from threading import Timer
 import struct
 import argparse
+from shutil import which
 
 class WatchSyslog:
     def __init__(self):
@@ -23,16 +24,14 @@ class WatchSyslog:
         self.start_time = time.time()
 
     def _spawnDeviceSyslog(self):
-        if os.path.isfile("/usr/bin/idevicesyslog"):
-            idevicesyslog_binary = "idevicesyslog"
-        else:
+        if which("idevicesyslog") is None:
             print("idevicesyslog not found!")
             return False
 
         DEVNULL = open(os.devnull, "wb")
 
         self.syslog_process = subprocess.Popen(
-            idevicesyslog_binary,
+            'idevicesyslog',
             stdout=subprocess.PIPE,
             stderr=DEVNULL,
         )
