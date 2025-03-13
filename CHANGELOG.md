@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - Added TLV parser for `IBILteCellInfoT`
+- Added the new ARI structures from iOS 18.3.1
 
 ### Changes
 
