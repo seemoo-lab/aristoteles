@@ -16,11 +16,10 @@ Some iPhones were produced with both chip flavors, depending on the region. Thes
 scripts were tested on an iPhone 11, SE 2020, 8, and 7. The iPhone 12 is Qualcomm only, even though Apple acquired
 the baseband division of Intel recently. More information what ARI does can be found in the rC3 talk
 [Fuzzing the phone in the iPhone](https://media.ccc.de/v/rc3-11358-fuzzing_the_phone_in_the_iphone)
-as well as our ESORICS paper *ARIstoteles - Dissecting Apple's Baseband Interface*.
+as well as our ESORICS paper _ARIstoteles - Dissecting Apple's Baseband Interface_.
 After successful installation and packet capture, the output looks as follows:
 
 ![SMS](assets/wireshark_sms.png)
-
 
 ## Installation
 
@@ -31,17 +30,16 @@ After successful installation and packet capture, the output looks as follows:
    If this is already mapped, you may also choose any other ID and it should work (untested) by replacing `USER_0` with your mapping in the following sections.
 3. All set! Let's start dissecting some ARI packets!
 
-Tested on Wireshark v3.6.0 with Lua 5.2.4.  
+Tested on Wireshark v3.6.0 with Lua 5.2.4.
 
-Currently contains extracted types and information from iOS version: 14.6
+Currently contains extracted types and information from iOS version: 18.3.1
 
 ## Usage
-
 
 ### Watch ARI messages on an iPhone
 
 The [tools/](tools/) folder contains the [`watch_syslog.py`](tools/watch_syslog.py) to capture packets from
-`idevicesyslog` output (no jailbreak required) as well as the 
+`idevicesyslog` output (no jailbreak required) as well as the
 [`watch_frida.py`](tools/watch_frida.py) script that captures them by hooking `CommCenter` with Frida (jailbreak required).
 The packets will be shown in Wireshark and you can record and save the trace, if needed.
 
@@ -57,13 +55,11 @@ Usually, the `idevicesyslog` output is stripped, but after installing the
 [Baseband Debug Profile](https://developer.apple.com/bug-reporting/profiles-and-logs/) on a non-jailbroken device
 ARI messages become visible. The baseband debug profile expires after 21 days, but it can be re-installed afterwards.
 
-
 **Notice: Due to all data being sent back to the scripts the performance might be slow on high traffic but does usually
 not cause any problems.**
 
-**Notice: The Frida version does currently output ARI messages sent to the baseband with a sequence number of 0 
+**Notice: The Frida version does currently output ARI messages sent to the baseband with a sequence number of 0
 and does not include the correct value since the method does not receive the correct sequence number.**
-
 
 ### Importing data from a raw packet trace
 
@@ -74,12 +70,11 @@ manually.
 
 1. Convert your ARI binary trace to a single hexdump, for example using our [`corpus_concat_hexdump.sh`](tools/corpus_concat_hexdump.sh)
    script, found in the [tools/](tools) folder.  
-`corpus_concat_hexdump.sh trace_folder/ trace.hd`.
+   `corpus_concat_hexdump.sh trace_folder/ trace.hd`.
 2. Open a hexdump via `File -> Import from Hex Dump...`.
 3. Choose `USER_0` as the `Encapsulation Type`.
 
 ![Import](assets/wireshark_import.png)
-
 
 ### Inject ARI messages into an iPhone
 
@@ -92,15 +87,12 @@ the baseband chip. Injection works using Frida, meaning that these scripts requi
     python replay_custom_packet.py ../examples/crashes/CellMonitor_1
 ```
 
-
 ## Examples
 
-* [examples/crashes](examples/crashes/) contains replayable crashes and bugs. Some of them were fixed in iOS 14.3, some in iOS 14.6.
+- [examples/crashes](examples/crashes/) contains replayable crashes and bugs. Some of them were fixed in iOS 14.3, some in iOS 14.6.
   Note that the resulting crash can be different depending on the underlying hardware, e.g., some crashes might only occur
   on an iPhone 7/8.
-  
-* [examples/captures](examples/captures/) contains a Wireshark trace to test the dissector even without iPhone.
-
+- [examples/captures](examples/captures/) contains a Wireshark trace to test the dissector even without iPhone.
 
 ## Developing
 
