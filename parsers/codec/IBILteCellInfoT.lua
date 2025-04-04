@@ -15,7 +15,7 @@ local fields = {
     ibiltecellinfot_latitude = ProtoField.uint32("ari.ibiltecellinfot.latitude", "IBILteCellInfoT Latitude", base.DEC),
     ibiltecellinfot_longitude = ProtoField.uint32("ari.ibiltecellinfot.longitude", "IBILteCellInfoT Longitude", base.DEC),
     ibiltecellinfot_bandwidth = ProtoField.uint32("ari.ibiltecellinfot.bandwidth", "IBILteCellInfoT Bandwidth", base.DEC),
-    ibiltecellinfot_deployment_type = ProtoField.uint32("ari.ibiltecellinfot.deployment_type", "IBILteCellInfoT Deployment Type", base.DEC),
+    ibiltecellinfot_unknown = ProtoField.bytes("ari.ibiltecellinfot.unknown", "Unknown", base.SPACE)
 }
 
 PARSER.fields = fields
@@ -74,14 +74,13 @@ function PARSER.parse(packet, tlv_tree, cur_tlv_data_byte, tlv_data_tvb, extra_i
     cur_tlv_data_byte = cur_tlv_data_byte + 4
 
     -- Bandwidth
-    local bandwidth = buffer(cur_tlv_data_byte, 4):le_uint()
-    tlv_tree:add(fields.ibiltecellinfot_bandwidth, buffer(cur_tlv_data_byte, 4), bandwidth, "Bandwidth: " .. bandwidth)
-    cur_tlv_data_byte = cur_tlv_data_byte + 4
+    local bandwidth = buffer(cur_tlv_data_byte, 1):le_uint()
+    tlv_tree:add(fields.ibiltecellinfot_bandwidth, buffer(cur_tlv_data_byte, 1), bandwidth, "Bandwidth: " .. bandwidth)
+    cur_tlv_data_byte = cur_tlv_data_byte + 1
 
-    -- Deployment Type
-    local deployment_type = buffer(cur_tlv_data_byte, 4):le_uint()
-    tlv_tree:add(fields.ibiltecellinfot_deployment_type, buffer(cur_tlv_data_byte, 4), deployment_type, "Deployment Type (?): " .. deployment_type)
-    cur_tlv_data_byte = cur_tlv_data_byte + 4
+    -- Unknown
+    tlv_tree:add(fields.ibiltecellinfot_unknown, buffer(cur_tlv_data_byte, 3))
+    cur_tlv_data_byte = cur_tlv_data_byte + 3
 
     return true
 end
