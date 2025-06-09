@@ -10,6 +10,20 @@ function istable(tab)
     return type(tab) == "table"
 end
 
+--- Returns the files in the directory alphabetically sorted.
+-- @param path string
+-- @return iterator
+function sorted_dir_iter(path)
+    local files = {}
+    for f in Dir.open(path) do files[#files+1] = f end
+    table.sort(files)
+    local i = 0
+    return function()
+        i = i + 1
+        return files[i]
+    end
+end
+
 --- Simple contains check, that tries to find a value in an indexed array table.
 -- @param tab table
 -- @param value any

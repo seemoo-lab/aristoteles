@@ -12,7 +12,7 @@ local tlv_parsers = {}
 local fields = {}
 
 -- Load TLV parsers
-for file in Dir.open(cwd .. searchpath) do
+for file in sorted_dir_iter(cwd .. searchpath) do
     dofile(cwd .. searchpath .. "/" .. file)
 
     local path = { PARSER.group_id, PARSER.type_id, PARSER.tlv_id }
@@ -35,7 +35,7 @@ searchpath = "parsers/codec"
 local codec_parsers = {}
 
 -- Load Codec parsers
-for file in Dir.open(cwd .. searchpath) do
+for file in sorted_dir_iter(cwd .. searchpath) do
     dofile(cwd .. searchpath .. "/" .. file)
 
     local path = { PARSER.codec_name }
@@ -58,7 +58,7 @@ searchpath = "types/structure"
 local tlv_structure = {}
 
 -- Load additional structure LUTs and merge them together
-for file in Dir.open(cwd .. searchpath) do
+for file in sorted_dir_iter(cwd .. searchpath) do
     local loaded_structure = dofile(cwd .. searchpath .. "/" .. file)
 
     table.Merge(tlv_structure, loaded_structure)
@@ -68,7 +68,7 @@ local asstring_lut = {}
 searchpath = "types/asstring"
 
 -- Load additional asstring LUTs and merge them together
-for file in Dir.open(cwd .. searchpath) do
+for file in sorted_dir_iter(cwd .. searchpath) do
     local loaded_asstring_lut = dofile(cwd .. searchpath .. "/" .. file)
 
     table.Merge(asstring_lut, loaded_asstring_lut)
