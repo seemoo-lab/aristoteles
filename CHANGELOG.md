@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Features
 
 - Add TLV parsers for Cell Information Types
+- Add SIM information to the packet info column for SIM specific packets
 
 ## [v2.1.0](https://github.com/seemoo-lab/aristoteles/tree/v2.1.0) (13-03-2025)
 
