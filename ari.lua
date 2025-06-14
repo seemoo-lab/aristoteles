@@ -166,6 +166,7 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
     end
 
     local tlv_data = buffer(cur_tlv_byte, tlv_length)
+    tlv.data = tlv_data
 
     -- Further helpful data
     local extra_information_tree = tlv_tree:add("Extra Information")
@@ -273,6 +274,15 @@ function dissect_tlv(tlv_tree, packet, cur_tlv_byte, message_type_info)
     return tlv
 end
 
+function getTlv(tlvs, id)
+    for j = 1, #tlvs do
+        if tlvs[j].id == id then
+            return tlvs[j]
+        end
+    end
+    return nil
+end
+
 function ari.dissector(buffer, pinfo, tree)
 
     --- ARI (Header) structure
@@ -342,11 +352,6 @@ function ari.dissector(buffer, pinfo, tree)
     pkt_message_id_int = (pkt_message_id_int_9 >> -2) + pkt_message_id_int_8
 
     local pkt_message_name_string = structure_lut[pkt_group_int] and structure_lut[pkt_group_int][pkt_message_id_int] and structure_lut[pkt_group_int][pkt_message_id_int].name or string.format("Unknown (GID: %d, MID: 0x%03x)", pkt_group_int, pkt_message_id_int)
-
-    -- set this name into the info column
-    -- taken from https://osqa-ask.wireshark.org/questions/34726/lua-script-update-info-field
-    packet.pinfo.cols.info:set(pkt_message_name_string)
-    packet.pinfo.cols.info:fence()
 
     header_tree:add(pkt_message_id, buffer(8, 2), pkt_message_id_int, "Message ID (mid): " .. pkt_message_id_int .. " (" .. string.format("0x%03x", pkt_message_id_int) .. ")")
     local pkt_message_name_item = header_tree:add(pkt_message_name, buffer(8, 2), pkt_message_name_string, "Message name: " .. pkt_message_name_string)
@@ -439,11 +444,8 @@ function ari.dissector(buffer, pinfo, tree)
                 local id = message_type_info.mtlvs[i]
                 local found = false
 
-                for j = 1, #packet.tlvs do
-                    if packet.tlvs[j].id == id then
-                        found = true
-                        break
-                    end
+                if getTlv(packet.tlvs, id) ~= nil then
+                    found = true
                 end
 
                 if not found then
@@ -456,6 +458,24 @@ function ari.dissector(buffer, pinfo, tree)
             end
         end
     end
+
+    local pkt_info = pkt_message_name_string
+
+    -- Check if the packet should contain the SIM slot
+    local sim_slot_tlv_id = 1
+    if structure_lut[pkt_group_int] and structure_lut[pkt_group_int][pkt_message_id_int] and structure_lut[pkt_group_int][pkt_message_id_int].tlvs[sim_slot_tlv_id] and structure_lut[pkt_group_int][pkt_message_id_int].tlvs[sim_slot_tlv_id].type_desc == "nInstance_t1" then
+        -- Check if the packet actually contains the SIM slot
+        local tlv = getTlv(packet.tlvs, sim_slot_tlv_id)
+        if tlv ~= nil and tlv.length == 4 then
+            local sim_slot = tlv.data:le_uint() + 1
+            pkt_info = string.format("%s [SIM=%i]", pkt_info, sim_slot)
+        end
+    end
+
+    -- set this name into the info column
+    -- taken from https://osqa-ask.wireshark.org/questions/34726/lua-script-update-info-field
+    packet.pinfo.cols.info:set(pkt_info)
+    packet.pinfo.cols.info:fence()
 
     pinfo.cols.protocol = ari.name
 end
