@@ -22,6 +22,7 @@ pkt_seq_num = ProtoField.uint16("ari.seq_num", "Sequence number", base.DEC)
 pkt_group = ProtoField.uint8("ari.gid", "Group ID (gid)", base.DEC)
 pkt_message_id = ProtoField.uint16("ari.message_id", "Message ID (mid)", base.DEC)
 pkt_message_name = ProtoField.string("ari.message_name", "Message Name")
+pkt_direction = ProtoField.string("ari.direction", "Direction")
 pkt_len = ProtoField.uint16("ari.length", "Length", base.DEC)
 pkt_trx = ProtoField.uint16("ari.transaction", "Transaction (trx or ctx)", base.DEC)
 pkt_ack_opt = ProtoField.uint8("ari.ack_opt", "Acknowledgement Option", base.DEC)
@@ -57,7 +58,7 @@ expert_too_small = ProtoExpert.new("ari.minimum_length", "ARI: Packet is smaller
 expert_missing_mandatory_tlv = ProtoExpert.new("ari.missing_mandatory_tlv", "ARI: Missing mandatory TLV", expert.group.MALFORMED, expert.severity.ERROR)
 expert_tlv_codec_length_warn = ProtoExpert.new("ari.tlv_codec_length_warn", "ARI: Specified codec length did not perfectly fit into this field (some bytes at the end were cut-off).", expert.group.MALFORMED, expert.severity.WARN)
 
-ari.fields = { proto_flag, pkt_seq_num, pkt_group, pkt_message_name, pkt_message_id, pkt_len, pkt_trx, pkt_ack_opt, pkt_gmid, -- Header fields
+ari.fields = { proto_flag, pkt_seq_num, pkt_group, pkt_message_name, pkt_direction, pkt_message_id, pkt_len, pkt_trx, pkt_ack_opt, pkt_gmid, -- Header fields
                 pkt_unknown_4, pkt_unknown_8, pkt_unknown_10,
                 tlv_id_field, tlv_mandatory_field, tlv_codec_name_field, tlv_type_desc_field, tlv_version_field, tlv_length_field, tlv_data_field, tlv_data_uint_field, tlv_data_codec_asstring_value_field, tlv_unknown_0, tlv_unknown_2,
               }
@@ -353,9 +354,28 @@ function ari.dissector(buffer, pinfo, tree)
 
     local pkt_message_name_string = structure_lut[pkt_group_int] and structure_lut[pkt_group_int][pkt_message_id_int] and structure_lut[pkt_group_int][pkt_message_id_int].name or string.format("Unknown (GID: %d, MID: 0x%03x)", pkt_group_int, pkt_message_id_int)
 
+    local pkt_direction_string = ""
+    -- Check if packet is a Request, Response, or Indication.
+    if string.find(pkt_message_name_string, 'Req_?%w?%w?$') then
+        pkt_direction_string = "OUT"
+    elseif string.find(pkt_message_name_string, 'Re?spC?b?_?%w?%w?$') then
+        pkt_direction_string = "IN"
+    elseif string.find(pkt_message_name_string, 'IndC?b?_?%w?%w?$') then
+        pkt_direction_string = "IN"
+    end
+
+    -- set this name into the info column
+    -- taken from https://osqa-ask.wireshark.org/questions/34726/lua-script-update-info-field
+    packet.pinfo.cols.info:set(pkt_message_name_string)
+    packet.pinfo.cols.info:fence()
+
     header_tree:add(pkt_message_id, buffer(8, 2), pkt_message_id_int, "Message ID (mid): " .. pkt_message_id_int .. " (" .. string.format("0x%03x", pkt_message_id_int) .. ")")
     local pkt_message_name_item = header_tree:add(pkt_message_name, buffer(8, 2), pkt_message_name_string, "Message name: " .. pkt_message_name_string)
     pkt_message_name_item:set_generated(true)
+    if pkt_direction_string ~= "" then
+        local pkt_direction_item = header_tree:add(pkt_direction, buffer(8, 2), pkt_direction_string, "Direction: " .. pkt_direction_string)
+        pkt_direction_item:set_generated(true)
+    end
 
     packet.message_name = pkt_message_name_string
     packet.message_id = pkt_message_id_int
