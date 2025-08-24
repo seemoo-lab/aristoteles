@@ -86,7 +86,7 @@ function PARSER.parse(packet, tlv_tree, cur_tlv_data_byte, tlv_data_tvb, extra_i
     cur_tlv_data_byte = cur_tlv_data_byte + 1
 
     -- Unknown
-    tlv_tree:add(fields.ibiltecellinfot_unknown, buffer(cur_tlv_data_byte, 2))
+    tlv_tree:add(fields.ibiltecellinfov1t_unknown, buffer(cur_tlv_data_byte, 2))
     cur_tlv_data_byte = cur_tlv_data_byte + 2
 
     return true
