@@ -16,27 +16,15 @@ class ARIFunctions {
     // Should the script send all ARI messages to python?
     this.catch_msgs = false;
 
-    this._ARIServer_base = Module.getBaseAddress('libARIServer.dylib');
-
-    this._InboundMsgCb_addr = Module.getExportByName(
-      "libARIServer.dylib",
-      "_ZN9AriHostRt12InboundMsgCBEPhm"
-    );
+    let libAriServer = Process.getModuleByName('libARIServer.dylib');
+    this._ARIServer_base = libAriServer.base;
+    this._InboundMsgCb_addr = libAriServer.getExportByName("_ZN9AriHostRt12InboundMsgCBEPhm");
     this._InboundMsgCb = new NativeFunction(this._InboundMsgCb_addr, "int64", [
       "pointer",
       "int64",
     ]);
-
-    this.SendRaw = Module.getExportByName(
-      "libARIServer.dylib",
-      "_ZN9AriHostRt7SendRawEPhjj"
-    );
-
-    this.SendRawInternal = Module.getExportByName(
-      "libARIServer.dylib",
-      "_ZN9AriHostRt18sendRawInternal_nlEPhj"
-    );
-
+    this.SendRaw = libAriServer.getExportByName("_ZN9AriHostRt7SendRawEPhjj");
+    this.SendRawInternal = libAriServer.getExportByName("_ZN9AriHostRt18sendRawInternal_nlEPhj");
     this.SendRawFunc = new NativeFunction(this.SendRaw, "int64", [
       "pointer",
       "int32",

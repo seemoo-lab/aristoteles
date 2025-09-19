@@ -12,6 +12,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Add SIM information to the packet info column for SIM specific packets
 - Add Direction Header to most of the packets
 
+### Fixes
+
+- Fix usage of deprecated Frida functions in watch_frida.py
+
 ## [v2.1.0](https://github.com/seemoo-lab/aristoteles/tree/v2.1.0) (13-03-2025)
 
 ### Features
