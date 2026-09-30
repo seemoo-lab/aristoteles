@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Fixes
 
 - Fix usage of deprecated Frida functions in watch_frida.py
+- Updates extraction tools to work with Ghidra 12.1.4
 
 ## [v2.1.0](https://github.com/seemoo-lab/aristoteles/tree/v2.1.0) (13-03-2025)
 

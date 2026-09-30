@@ -6,16 +6,14 @@
 #@menupath
 #@toolbar
 
-from ghidra.app.decompiler import DecompileOptions
-from ghidra.app.decompiler import DecompInterface
-from ghidra.program.model.pcode import PcodeOp
-from ghidra.program.model.scalar import Scalar
-from ghidra.program.model.data import Pointer40DataType, WordDataType, UnsignedIntegerDataType, UnsignedShortDataType
-from ghidra.app.emulator import EmulatorHelper
-
-import binascii
-import os
 import datetime
+import os
+
+from ghidra.app.decompiler import DecompInterface
+from ghidra.app.decompiler import DecompileOptions
+# from ghidra.ghidra_builtins import askDirectory, currentProgram, getSymbol, removeDataAt, getDataAt
+from ghidra.program.model.data import Pointer40DataType, UnsignedIntegerDataType, UnsignedShortDataType
+
 
 class Analyzer:
     countGroups = 0
