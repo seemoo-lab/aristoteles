@@ -1,4 +1,4 @@
---- AUTO GENERATED OUTPUT from Ghidra script "ari-structure-extractor.py" on 2025-03-08_15:59:48 
+--- AUTO GENERATED OUTPUT from Ghidra script "ari-structure-extractor.py" on 2026-09-30_16:36:24 
 return {
     [1] = {
         ["name"] = "_ARIMSGDEF_GROUP01_bsp",
@@ -730,6 +730,13 @@ return {
                     },
                     type_desc = "userNotification_t2"
                 },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "CsiBSPBBDumpLevel",
+                    },
+                    type_desc = "level_t3"
+                },
             },
         },
     },
@@ -1007,6 +1014,13 @@ return {
                         name = "IBICallCsTtyDeviceMode",
                     },
                     type_desc = "tty_device_mode_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "ims_rtt_supported_t4"
                 },
             },
         },
@@ -1658,6 +1672,13 @@ return {
                         name = "IBICallCsEccListParam",
                     },
                     type_desc = "ecc_list_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 5288,
+                        name = "IBICallCsExtEccListParam",
+                    },
+                    type_desc = "extecc_list_t5"
                 },
             },
         },
@@ -3153,6 +3174,34 @@ return {
                     },
                     type_desc = "bDnsServerSecInfoInd_roam2_t134"
                 },
+                [135] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "is_always_on_home1_t135"
+                },
+                [136] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "is_always_on_home2_t136"
+                },
+                [137] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "is_always_on_roam1_t137"
+                },
+                [144] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "is_always_on_roam2_t144"
+                },
             },
         },
         [258] = {
@@ -3417,6 +3466,20 @@ return {
                         name = "IBIBool",
                     },
                     type_desc = "bOngoing_mmtel_call_t48"
+                },
+                [49] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIRat",
+                    },
+                    type_desc = "rat_t49"
+                },
+                [50] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "suppress_deact_t50"
                 },
             },
         },
@@ -4919,6 +4982,20 @@ return {
                     },
                     type_desc = "bandwidthEstimationInfoV2_t6"
                 },
+                [7] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICallPsAudioVideoStreamingAppType",
+                    },
+                    type_desc = "audioVideoAppType_t7"
+                },
+                [8] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "coreMediaAppStallDetected_t8"
+                },
             },
         },
         [331] = {
@@ -5016,6 +5093,47 @@ return {
                 },
             },
         },
+        [334] = {
+            name = "IBIMsCallPsAONConfigReq",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICallPsPdpContextId",
+                    },
+                    type_desc = "cid_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "interface_id_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "num_aon_filters_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 140,
+                        name = "IBICallPsAONFilterInfo",
+                    },
+                    type_desc = "aon_filter_info_list_t6"
+                },
+            },
+        },
         [335] = {
             name = "IBICallPsServiceTypeUpdateReq",
             mtlvs = {1, 3, 4},
@@ -5053,6 +5171,60 @@ return {
                         name = "IBIUInt32",
                     },
                     type_desc = "nInstance_t1"
+                },
+            },
+        },
+        [337] = {
+            name = "IBICallPsIdleConnFiltersConfigReq",
+            mtlvs = {1, 3, 4},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICallPsPdpContextId",
+                    },
+                    type_desc = "cid_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "num_of_idle_conns_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 60,
+                        name = "IBICallPsIdleConnInfo",
+                    },
+                    type_desc = "idle_conn_info_list_t5"
+                },
+            },
+        },
+        [338] = {
+            name = "IBICallPsCellularDataInterfaceInfoReq",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 2,
+                        name = "IBICallPsCellularDataInterfaceInfo",
+                    },
+                    type_desc = "cellular_intf_info_t3"
                 },
             },
         },
@@ -6089,6 +6261,47 @@ return {
                 },
             },
         },
+        [590] = {
+            name = "IBIMsCallPsAONConfigRspCb",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICallPsPdpContextId",
+                    },
+                    type_desc = "cid_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "num_flow_ids_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "flow_id_list_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t6"
+                },
+            },
+        },
         [591] = {
             name = "IBICallPsServiceTypeUpdateRspCb",
             mtlvs = {1, 3},
@@ -6168,6 +6381,46 @@ return {
                         name = "IBICallPsNr5gNeighborCellInfo",
                     },
                     type_desc = "nr_neighbor_cell_Info_t9"
+                },
+            },
+        },
+        [593] = {
+            name = "IBICallPsIdleConnFiltersConfigRspCb",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t3"
+                },
+            },
+        },
+        [594] = {
+            name = "IBICallPsCellularDataInterfaceInfoRspCb",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t3"
                 },
             },
         },
@@ -7447,6 +7700,13 @@ return {
                     },
                     type_desc = "nr_neighbor_cell_Info_t8"
                 },
+                [9] = {
+                    codec = {
+                        length = 2,
+                        name = "IBICallPsTcpMitigationInfo",
+                    },
+                    type_desc = "tcp_mitigation_info_t9"
+                },
             },
         },
         [802] = {
@@ -7561,6 +7821,40 @@ return {
                         name = "IBIUInt64",
                     },
                     type_desc = "cell_id_t3"
+                },
+            },
+        },
+        [849] = {
+            name = "IBICallPsIdleConnFiltersConfigIndCb",
+            mtlvs = {1, 2, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICallPsPdpContextId",
+                    },
+                    type_desc = "cid_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "num_of_flow_ids_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "flow_id_list_t4"
                 },
             },
         },
@@ -9687,6 +9981,13 @@ return {
                     },
                     type_desc = "BB_info_t6"
                 },
+                [7] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "BB_info_NR_t7"
+                },
             },
         },
         [278] = {
@@ -9727,6 +10028,20 @@ return {
                         name = "IBINetApScreenLockStatusType",
                     },
                     type_desc = "screen_lock_status_t6"
+                },
+                [7] = {
+                    codec = {
+                        length = 8,
+                        name = "IBINetApCarplayInfo",
+                    },
+                    type_desc = "carplay_info_t7"
+                },
+                [8] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "is_china_sku_t8"
                 },
             },
         },
@@ -9890,6 +10205,13 @@ return {
                     },
                     type_desc = "total_msg_number_t5"
                 },
+                [6] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIPlmnPriorityInfoType",
+                    },
+                    type_desc = "plmn_info_type_t6"
+                },
             },
         },
         [286] = {
@@ -9909,6 +10231,13 @@ return {
                         name = "IBIUInt32",
                     },
                     type_desc = "CRC_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIPlmnPriorityInfoType",
+                    },
+                    type_desc = "plmn_info_type_t4"
                 },
             },
         },
@@ -10212,6 +10541,20 @@ return {
                     },
                     type_desc = "wifi_calling_t8"
                 },
+                [9] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "location_privacy_mode_t9"
+                },
+                [10] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "dynamic_data_switch_t10"
+                },
             },
         },
         [293] = {
@@ -10320,6 +10663,20 @@ return {
                     },
                     type_desc = "mcc_list_t3"
                 },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINetGeoMCCType",
+                    },
+                    type_desc = "type_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINetGeoMCCSatelliteAuthorization",
+                    },
+                    type_desc = "sat_authorization_t5"
+                },
             },
         },
         [297] = {
@@ -10365,6 +10722,80 @@ return {
                         name = "IBIBool",
                     },
                     type_desc = "reg_over_sat_system_allowed_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "test_mode_t4"
+                },
+            },
+        },
+        [300] = {
+            name = "IBINetSatelliteSystemTrafficInfo",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "is_sat_entitled_app_in_fgrnd_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "sat_entitled_active_traffic_types_t4"
+                },
+            },
+        },
+        [301] = {
+            name = "IBINetIqCaptureQueryReq",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "time_in_ms_t3"
+                },
+            },
+        },
+        [302] = {
+            name = "IBINetIqCaptureStartReq",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 24,
+                        name = "IBINetIqCapConfigParam",
+                    },
+                    type_desc = "config_t3"
                 },
             },
         },
@@ -10737,6 +11168,13 @@ return {
                     },
                     type_desc = "is_sat_system_t37"
                 },
+                [38] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "emergency_fallback_supported_t38"
+                },
             },
         },
         [540] = {
@@ -10823,6 +11261,13 @@ return {
                         name = "IBIUInt8",
                     },
                     type_desc = "BB_info_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "BB_info_NR_t5"
                 },
             },
         },
@@ -11066,6 +11511,73 @@ return {
                 },
             },
         },
+        [556] = {
+            name = "IBINetSatelliteSystemTrafficInfoRspCb",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICommonReturnCodes",
+                    },
+                    type_desc = "result_t3"
+                },
+            },
+        },
+        [557] = {
+            name = "IBINetIqCaptureQueryRspCb",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINetIqCapQueryResult",
+                    },
+                    type_desc = "result_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "band_t4"
+                },
+            },
+        },
+        [558] = {
+            name = "IBINetIqCaptureStartRspCb",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINetIqCapStartResult",
+                    },
+                    type_desc = "result_t3"
+                },
+            },
+        },
         [769] = {
             name = "IBINetRegistrationInfoIndCb",
             mtlvs = {1, 2, 5, 8},
@@ -11251,6 +11763,13 @@ return {
                         name = "IBIBool",
                     },
                     type_desc = "is_sat_system_t32"
+                },
+                [33] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "emergency_fallback_supported_t33"
                 },
             },
         },
@@ -11599,6 +12118,13 @@ return {
                         name = "IBIBool",
                     },
                     type_desc = "final_report_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "is_sat_plmn_t6"
                 },
             },
         },
@@ -12001,6 +12527,13 @@ return {
                     },
                     type_desc = "band_settings_V1_t14"
                 },
+                [15] = {
+                    codec = {
+                        length = 32,
+                        name = "IBINetRatModeSetting_V2",
+                    },
+                    type_desc = "rat_mode_settings_V2_t15"
+                },
             },
         },
         [259] = {
@@ -12149,6 +12682,73 @@ return {
                 },
             },
         },
+        [267] = {
+            name = "IBINetCbrsConfigReq",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINetCbrsRatConfig",
+                    },
+                    type_desc = "lte_cbrs_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINetCbrsRatConfig",
+                    },
+                    type_desc = "nr_cbrs_t4"
+                },
+            },
+        },
+        [268] = {
+            name = "IBINetRatUnavailableRanDatabaseReq",
+            mtlvs = {},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "num_entries_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 12,
+                        name = "IBINetRatUnavailableRan",
+                    },
+                    type_desc = "unavailable_ran_list_t3"
+                },
+            },
+        },
+        [269] = {
+            name = "IBINetRatUnavailableRanDatabaseReq_V2",
+            mtlvs = {},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "num_entries_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 12,
+                        name = "IBINetRatUnavailableRan_V2",
+                    },
+                    type_desc = "unavailable_ran_list_t3"
+                },
+            },
+        },
         [514] = {
             name = "IBINetConfigureNetworkModeRspCb",
             mtlvs = {1, 3},
@@ -12235,6 +12835,13 @@ return {
                         name = "IBIRat",
                     },
                     type_desc = "pref_rat_list_V1_t9"
+                },
+                [10] = {
+                    codec = {
+                        length = 20,
+                        name = "IBINetEnabledRats_V2",
+                    },
+                    type_desc = "rat_mode_V2_t10"
                 },
             },
         },
@@ -12456,6 +13063,52 @@ return {
                 },
             },
         },
+        [523] = {
+            name = "IBINetCbrsConfigResp",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICommonReturnCodes",
+                    },
+                    type_desc = "result_t3"
+                },
+            },
+        },
+        [524] = {
+            name = "IBINetRatUnavailableRanDatabaseRsp",
+            mtlvs = {},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICommonReturnCodes",
+                    },
+                    type_desc = "result_t2"
+                },
+            },
+        },
+        [525] = {
+            name = "IBINetRatUnavailableRanDatabaseRsp_V2",
+            mtlvs = {},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICommonReturnCodes",
+                    },
+                    type_desc = "result_t2"
+                },
+            },
+        },
         [769] = {
             name = "IBINetNetworkModeChangeIndCb",
             mtlvs = {1},
@@ -12529,6 +13182,13 @@ return {
                         name = "IBINetBandSettings_V1",
                     },
                     type_desc = "band_settings_V1_t11"
+                },
+                [12] = {
+                    codec = {
+                        length = 32,
+                        name = "IBINetRatModeSetting_V2",
+                    },
+                    type_desc = "rat_mode_settings_V2_t12"
                 },
             },
         },
@@ -12613,6 +13273,13 @@ return {
                     },
                     type_desc = "nsa_disabled_reason_t11"
                 },
+                [12] = {
+                    codec = {
+                        length = 20,
+                        name = "IBINetEnabledRats_V2",
+                    },
+                    type_desc = "rat_mode_V2_t12"
+                },
             },
         },
         [771] = {
@@ -12693,6 +13360,19 @@ return {
                         name = "IBINetRatReleaseVersion",
                     },
                     type_desc = "release_version_t3"
+                },
+            },
+        },
+        [774] = {
+            name = "IBINetRRCRejectInd",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
                 },
             },
         },
@@ -13009,6 +13689,53 @@ return {
                         name = "IBINetTurboModeReason",
                     },
                     type_desc = "reason_t2"
+                },
+            },
+        },
+        [299] = {
+            name = "IBISetEmergencySessionStateReq",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIEmergencySessionState",
+                    },
+                    type_desc = "state_t3"
+                },
+            },
+        },
+        [300] = {
+            name = "IBINetEmergencyHysteresisStateReq",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINetEmergencyHysteresisState",
+                    },
+                    type_desc = "hysteresis_state_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "ps_domain_failed_t4"
                 },
             },
         },
@@ -13455,6 +14182,13 @@ return {
                         name = "IBINrCellInfoT_V3",
                     },
                     type_desc = "nr_scell_info_v3_t61"
+                },
+                [62] = {
+                    codec = {
+                        length = 84,
+                        name = "IBINrCellInfoT_V4",
+                    },
+                    type_desc = "nr_scell_info_v4_t62"
                 },
             },
         },
@@ -14048,6 +14782,46 @@ return {
                 },
             },
         },
+        [555] = {
+            name = "IBISetEmergencySessionStateRspCb",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t3"
+                },
+            },
+        },
+        [556] = {
+            name = "IBINetEmergencyHysteresisStateRspCb",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t3"
+                },
+            },
+        },
         [769] = {
             name = "IBINetCellInfoIndCb",
             mtlvs = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17},
@@ -14336,6 +15110,13 @@ return {
                         name = "IBINetRadioSignalSecondaryRatInfo",
                     },
                     type_desc = "sec_rat_info_t11"
+                },
+                [12] = {
+                    codec = {
+                        length = 1032,
+                        name = "IBINetNrRxStatSecondaryCellsInfo",
+                    },
+                    type_desc = "nr_sec_cell_info_t12"
                 },
             },
         },
@@ -14713,6 +15494,13 @@ return {
                         name = "IBINrCellInfoT_V3",
                     },
                     type_desc = "nr_scell_info_v3_t53"
+                },
+                [54] = {
+                    codec = {
+                        length = 84,
+                        name = "IBINrCellInfoT_V4",
+                    },
+                    type_desc = "nr_scell_info_v4_t54"
                 },
             },
         },
@@ -15288,6 +16076,19 @@ return {
         },
         [810] = {
             name = "IBINetEmergencyApacsScanFailIndCb",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+            },
+        },
+        [811] = {
+            name = "IBINetEmergencyHysteresisStateEndIndCb",
             mtlvs = {1},
             tlvs = {
                 [1] = {
@@ -19591,6 +20392,32 @@ return {
             tlvs = {
             },
         },
+        [268] = {
+            name = "IBIMSimGetOperModeReq",
+            mtlvs = {},
+            tlvs = {
+            },
+        },
+        [269] = {
+            name = "IBICpsGetFeatureStatusReq",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICpsFeatureId",
+                    },
+                    type_desc = "feature_id_t3"
+                },
+            },
+        },
         [513] = {
             name = "IBICpsConfigureCellularPowerReportRsp",
             mtlvs = {1, 3},
@@ -19783,6 +20610,46 @@ return {
                 },
             },
         },
+        [524] = {
+            name = "IBIMSimGetOperModeRspCb",
+            mtlvs = {2, 3},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIMSimOperModeStatus",
+                    },
+                    type_desc = "result_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIMSimOperMode",
+                    },
+                    type_desc = "mode_t3"
+                },
+            },
+        },
+        [525] = {
+            name = "IBICpsGetFeatureStatusRspCb",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 8,
+                        name = "IBICpsBBFeatureState",
+                    },
+                    type_desc = "feature_status_t3"
+                },
+            },
+        },
         [769] = {
             name = "IBICpsCellularPowerReportInd",
             mtlvs = {1, 3, 4, 5, 6},
@@ -19945,6 +20812,39 @@ return {
                 },
             },
         },
+        [775] = {
+            name = "IBIMSimOperModeIndCb",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIMSimOperMode",
+                    },
+                    type_desc = "mode_t1"
+                },
+            },
+        },
+        [776] = {
+            name = "IBICpsFeatureStatusIndCb",
+            mtlvs = {1, 2},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 8,
+                        name = "IBICpsBBFeatureState",
+                    },
+                    type_desc = "feature_status_t2"
+                },
+            },
+        },
     },
     [16] = {
         ["name"] = "_ARIMSGDEF_GROUP16_call_cs_voims",
@@ -20007,6 +20907,13 @@ return {
                     },
                     type_desc = "is_emergency_t5"
                 },
+                [6] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "is_emergency_normal_t6"
+                },
             },
         },
         [259] = {
@@ -20046,6 +20953,33 @@ return {
                         name = "IBIUInt32",
                     },
                     type_desc = "nInstance_t1"
+                },
+            },
+        },
+        [261] = {
+            name = "IBICallCsVoimsProvideRTPSessionStatusReq",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICallCsVoimsProvideRTPSessionStatusType",
+                    },
+                    type_desc = "rtp_session_status_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICallCsVoimsProvideRTPSessionDirType",
+                    },
+                    type_desc = "rtp_session_dir_t4"
                 },
             },
         },
@@ -20140,6 +21074,26 @@ return {
                         name = "IBIUInt32",
                     },
                     type_desc = "time_in_ms_t4"
+                },
+            },
+        },
+        [517] = {
+            name = "IBICallCsVoimsProvideRTPSessionStatusRspCb",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICommonReturnCodes",
+                    },
+                    type_desc = "result_t3"
                 },
             },
         },
@@ -21168,6 +22122,13 @@ return {
                         name = "IBIBool",
                     },
                     type_desc = "srvcc_flag_t14"
+                },
+                [15] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "on_non3gpp_access_t15"
                 },
             },
         },
@@ -22824,6 +23785,193 @@ return {
                 },
             },
         },
+        [314] = {
+            name = "UtaIdcSetSfbmAntBlockPwrLmtPolicyConfigReq",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 472,
+                        name = "t_s_UtaIdcSfbmAntBlockPwrLmtPolicyConfig",
+                    },
+                    type_desc = "param_t2"
+                },
+                [4] = {
+                    codec = {
+                        length = 536,
+                        name = "t_s_UtaIdcSfbmAntBlockPwrLmtPolicyConfigV2",
+                    },
+                    type_desc = "param_t4"
+                },
+            },
+        },
+        [315] = {
+            name = "UtaIdcRTSetScanFreqReqV3",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 324,
+                        name = "t_s_UtaIdcRTScanFreqConfigV3",
+                    },
+                    type_desc = "param_t2"
+                },
+            },
+        },
+        [316] = {
+            name = "UtaIdcConfigMiscParamReqV3",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 8,
+                        name = "t_s_UtaIdcMiscConfigV3",
+                    },
+                    type_desc = "param_t2"
+                },
+                [4] = {
+                    codec = {
+                        length = 20,
+                        name = "t_s_UtaIdcMiscConfigV4",
+                    },
+                    type_desc = "param_t4"
+                },
+            },
+        },
+        [317] = {
+            name = "UtaIdcGetCellConfigReqV2",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+            },
+        },
+        [318] = {
+            name = "UtaIdcSetCnvAntBlockPwrLmtConfigReqV2",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 1296,
+                        name = "t_s_UtaIdcCnvAntBlockPwrLmtPolicyConfigV2",
+                    },
+                    type_desc = "param_t3"
+                },
+            },
+        },
+        [319] = {
+            name = "UtaIdcSetTunerArbitrationConfigReqV3",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 12,
+                        name = "t_s_UtaIdcTunerArbitrationConfigV3",
+                    },
+                    type_desc = "param_t3"
+                },
+            },
+        },
+        [320] = {
+            name = "UtaIdcSetPhysicalModePolicyConfigReq",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 176,
+                        name = "t_s_UtaIdcPhycialModePolicyConfig",
+                    },
+                    type_desc = "param_t3"
+                },
+            },
+        },
+        [321] = {
+            name = "UtaIdcSetRTFeatureSpmiTxReqV4",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 260,
+                        name = "t_s_UtaIdcRTSpmiTxConfigV4",
+                    },
+                    type_desc = "param_t3"
+                },
+            },
+        },
+        [322] = {
+            name = "UtaIdcSetRTFeatureSpmiRxReqV4",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 260,
+                        name = "t_s_UtaIdcRTSpmiRxConfigV4",
+                    },
+                    type_desc = "param_t3"
+                },
+            },
+        },
         [513] = {
             name = "CsiIdcGetCellConfigRspCb",
             mtlvs = {1, 2, 3},
@@ -24076,6 +25224,214 @@ return {
                 },
             },
         },
+        [570] = {
+            name = "UtaIdcSetSfbmAntBlockPwrLmtPolicyConfigRspCb",
+            mtlvs = {1, 2},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t2"
+                },
+            },
+        },
+        [571] = {
+            name = "UtaIdcRTSetScanFreqRspCbV3",
+            mtlvs = {1, 2},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t2"
+                },
+            },
+        },
+        [572] = {
+            name = "UtaIdcConfigMiscParamRspCbV3",
+            mtlvs = {1, 2},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t2"
+                },
+            },
+        },
+        [573] = {
+            name = "UtaIdcGetCellConfigRspCbV2",
+            mtlvs = {1, 2},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t2"
+                },
+                [4] = {
+                    codec = {
+                        length = 832,
+                        name = "t_s_UtaIdcCellConfigV2",
+                    },
+                    type_desc = "p_data_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 1120,
+                        name = "t_s_UtaIdcCellConfigV3",
+                    },
+                    type_desc = "p_data_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 1348,
+                        name = "t_s_UtaIdcCellConfigV4",
+                    },
+                    type_desc = "p_data_t6"
+                },
+                [7] = {
+                    codec = {
+                        length = 1516,
+                        name = "t_s_UtaIdcCellConfigV5",
+                    },
+                    type_desc = "p_data_t7"
+                },
+            },
+        },
+        [574] = {
+            name = "UtaIdcSetCnvAntBlockPwrLmtConfigRspCbV2",
+            mtlvs = {1, 2},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t2"
+                },
+            },
+        },
+        [575] = {
+            name = "UtaIdcSetTunerArbitrationConfigRspCbV3",
+            mtlvs = {1, 2},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t2"
+                },
+            },
+        },
+        [576] = {
+            name = "UtaIdcSetPhysicalModePolicyConfigRspCb",
+            mtlvs = {1, 2},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t2"
+                },
+            },
+        },
+        [577] = {
+            name = "UtaIdcSetRTFeatureSpmiTxRspCbV4",
+            mtlvs = {1, 2},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t2"
+                },
+            },
+        },
+        [578] = {
+            name = "UtaIdcSetRTFeatureSpmiRxRspCbV4",
+            mtlvs = {1, 2},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t2"
+                },
+            },
+        },
         [769] = {
             name = "CsiIdcCellConfigEventIndCb",
             mtlvs = {1, 2, 3},
@@ -24325,6 +25681,54 @@ return {
                         name = "t_s_UtaIdcLaaMeasInfo",
                     },
                     type_desc = "p_data_t3"
+                },
+            },
+        },
+        [776] = {
+            name = "UtaIdcCellConfigEventIndCbV2",
+            mtlvs = {1, 2},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 832,
+                        name = "t_s_UtaIdcCellConfigV2",
+                    },
+                    type_desc = "p_data_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 1120,
+                        name = "t_s_UtaIdcCellConfigV3",
+                    },
+                    type_desc = "p_data_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 1348,
+                        name = "t_s_UtaIdcCellConfigV4",
+                    },
+                    type_desc = "p_data_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 1516,
+                        name = "t_s_UtaIdcCellConfigV5",
+                    },
+                    type_desc = "p_data_t6"
                 },
             },
         },
@@ -27581,6 +28985,13 @@ return {
                     },
                     type_desc = "privacy_level_t6"
                 },
+                [7] = {
+                    codec = {
+                        length = 16,
+                        name = "TraceChannelParams",
+                    },
+                    type_desc = "channel_params_t7"
+                },
             },
         },
         [263] = {
@@ -27797,6 +29208,20 @@ return {
                     },
                     type_desc = "result_code_t1"
                 },
+                [2] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "region_id_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "fill_level_t3"
+                },
             },
         },
         [769] = {
@@ -27809,6 +29234,53 @@ return {
                         name = "IBIUInt32",
                     },
                     type_desc = "result_code_t1"
+                },
+            },
+        },
+        [770] = {
+            name = "TraceFlushCompleteInd",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "result_code_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 8,
+                        name = "IBIUInt64",
+                    },
+                    type_desc = "boot_id_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "sequence_number_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 48,
+                        name = "TraceDropStatistics",
+                    },
+                    type_desc = "trace_drop_statistics_t4"
+                },
+            },
+        },
+        [771] = {
+            name = "TraceSustainedDataRateInd",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 12,
+                        name = "TraceSustainedDataRateStatus",
+                    },
+                    type_desc = "status_t1"
                 },
             },
         },
@@ -28761,6 +30233,35 @@ return {
             },
         },
     },
+    [30] = {
+        ["name"] = "_ARIMSGDEF_GROUP30_bb_power",
+        [257] = {
+            name = "IBIBbPowerSocSleepStatsReq",
+            mtlvs = {},
+            tlvs = {
+            },
+        },
+        [513] = {
+            name = "IBIBbPowerSocSleepStatsRspCb",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIInt32",
+                    },
+                    type_desc = "result_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 48,
+                        name = "IBIBbPowerSocSleepStats",
+                    },
+                    type_desc = "soc_sleep_stats_t3"
+                },
+            },
+        },
+    },
     [31] = {
         ["name"] = "_ARIMSGDEF_GROUP31_embms",
         [257] = {
@@ -29565,6 +31066,26 @@ return {
                     },
                     type_desc = "files_per_session_t7"
                 },
+                [8] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIPriPushType",
+                    },
+                    type_desc = "pri_push_type_t8"
+                },
+            },
+        },
+        [261] = {
+            name = "IBIPriRevertToCarrierReq",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
             },
         },
         [514] = {
@@ -29609,6 +31130,26 @@ return {
         },
         [516] = {
             name = "IBIPriWriteRspCb_V3",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIPriGriWriteResp",
+                    },
+                    type_desc = "result_t3"
+                },
+            },
+        },
+        [517] = {
+            name = "IBIPriRevertToCarrierRspCb",
             mtlvs = {1, 3},
             tlvs = {
                 [1] = {
@@ -30705,6 +32246,20 @@ return {
                     },
                     type_desc = "sim_req_data_t6"
                 },
+                [7] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "cert_identifier_len_t7"
+                },
+                [8] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "cert_identifier_t8"
+                },
             },
         },
         [275] = {
@@ -30750,6 +32305,352 @@ return {
                     },
                     type_desc = "dual_sim_t2"
                 },
+            },
+        },
+        [279] = {
+            name = "IBIVinylPairingReq",
+            mtlvs = {1, 3, 4, 5, 6, 7, 8},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylPairingCmdEnum",
+                    },
+                    type_desc = "cmd_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "final_seg_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "total_seg_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "cur_seg_t6"
+                },
+                [7] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "length_t7"
+                },
+                [8] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "payload_t8"
+                },
+            },
+        },
+        [280] = {
+            name = "IBIVinylATCResultReq",
+            mtlvs = {2, 3},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylATCResult",
+                    },
+                    type_desc = "result_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylATCFailureCause",
+                    },
+                    type_desc = "cause_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "iccid_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 52,
+                        name = "IBIVinylProfilesInfoStruct",
+                    },
+                    type_desc = "profiles_info_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "slot_id_t6"
+                },
+            },
+        },
+        [281] = {
+            name = "IBIVinylPartialActiveProfileOpReq",
+            mtlvs = {2, 3},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "slot_id_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylPrlActSimOp",
+                    },
+                    type_desc = "sim_op_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "channel_id_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "iccid_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 9,
+                        name = "IBIVinylPrlActSimPin",
+                    },
+                    type_desc = "sim_pin_t6"
+                },
+                [7] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylPrlActSimApp",
+                    },
+                    type_desc = "app_id_t7"
+                },
+                [8] = {
+                    codec = {
+                        length = 40,
+                        name = "IBIVinylPrlActAuthParam",
+                    },
+                    type_desc = "auth_params_t8"
+                },
+                [9] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylPrlActSimFile",
+                    },
+                    type_desc = "sim_file_t9"
+                },
+                [10] = {
+                    codec = {
+                        length = 258,
+                        name = "IBIVinylPrlActRawData",
+                    },
+                    type_desc = "raw_data_t10"
+                },
+            },
+        },
+        [282] = {
+            name = "IBIVinylPartialActiveMetaDataReq",
+            mtlvs = {},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "iccid_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "channel_id_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "slot_id_t4"
+                },
+            },
+        },
+        [283] = {
+            name = "IBIVinylSimCardResetReq",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+            },
+        },
+        [284] = {
+            name = "IBINcModeReq",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINcMode",
+                    },
+                    type_desc = "bcam_mode_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "oem_data_t4"
+                },
+            },
+        },
+        [285] = {
+            name = "IBINcUpdateBCAMCfgReq",
+            mtlvs = {1, 3, 4, 5, 6},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "total_seg_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "cur_seg_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "length_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "payload_t6"
+                },
+            },
+        },
+        [286] = {
+            name = "IBIVinylGetEuuidReq",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+            },
+        },
+        [287] = {
+            name = "IBIVinylGetNcCfgReq",
+            mtlvs = {1, 3, 4},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINcCfgReq",
+                    },
+                    type_desc = "cfg_req_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "rsp_in_hash_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "startingSlotIndex_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "numberOfKeys_t6"
+                },
+            },
+        },
+        [288] = {
+            name = "IBISwitchSimMuxCfgReq",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBISimMuxCfgEnum",
+                    },
+                    type_desc = "sim_cfg_req_t2"
+                },
+            },
+        },
+        [289] = {
+            name = "IBIGetSimMuxCfgReq",
+            mtlvs = {},
+            tlvs = {
             },
         },
         [513] = {
@@ -31503,6 +33404,359 @@ return {
                 },
             },
         },
+        [535] = {
+            name = "IBIVinylPairingRspCb",
+            mtlvs = {1, 3, 4, 5, 6, 7, 8, 9},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylPairingCmdEnum",
+                    },
+                    type_desc = "cmd_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylResult",
+                    },
+                    type_desc = "result_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "sw1_sw2_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "total_seg_t6"
+                },
+                [7] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "cur_seg_t7"
+                },
+                [8] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "length_t8"
+                },
+                [9] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "payload_t9"
+                },
+            },
+        },
+        [536] = {
+            name = "IBIVinylATCResultRspCb",
+            mtlvs = {},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "slot_id_t2"
+                },
+            },
+        },
+        [537] = {
+            name = "IBIVinylPartialActiveProfileOpRspCb",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylResult",
+                    },
+                    type_desc = "result_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "iccid_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "channel_id_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 3590,
+                        name = "IBIVinylPrlActFileOpRsp",
+                    },
+                    type_desc = "file_rsp_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 84,
+                        name = "IBIVinylPrlActAuthRsp",
+                    },
+                    type_desc = "auth_rsp_t6"
+                },
+                [7] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "slot_id_t7"
+                },
+            },
+        },
+        [538] = {
+            name = "IBIVinylPartialActiveMetaDataRspCb",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylResult",
+                    },
+                    type_desc = "result_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "iccid_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 8,
+                        name = "IBIVinylPrlActSimAppInfo",
+                    },
+                    type_desc = "associated_apps_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "slot_id_t5"
+                },
+            },
+        },
+        [539] = {
+            name = "IBIVinylSimCardResetRspCb",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylResult",
+                    },
+                    type_desc = "result_t3"
+                },
+            },
+        },
+        [540] = {
+            name = "IBINcModeRspCb",
+            mtlvs = {1, 3, 4},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINcMode",
+                    },
+                    type_desc = "bcam_mode_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINcResult",
+                    },
+                    type_desc = "result_t4"
+                },
+            },
+        },
+        [541] = {
+            name = "IBINcUpdateBCAMCfgRspCb",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINcResult",
+                    },
+                    type_desc = "result_t3"
+                },
+            },
+        },
+        [542] = {
+            name = "IBIVinylGetEuuidRspCb",
+            mtlvs = {1, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINcResult",
+                    },
+                    type_desc = "result_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "euuid_t4"
+                },
+            },
+        },
+        [543] = {
+            name = "IBIVinylGetNcCfgRspCb",
+            mtlvs = {1, 3, 4, 5},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINcResult",
+                    },
+                    type_desc = "result_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINcCfgReq",
+                    },
+                    type_desc = "cfg_req_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "rsp_in_hash_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "sw1_sw2_t6"
+                },
+                [7] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "total_seg_t7"
+                },
+                [8] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "cur_seg_t8"
+                },
+                [9] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "length_t9"
+                },
+                [10] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "payload_t10"
+                },
+            },
+        },
+        [544] = {
+            name = "IBISwitchSimMuxCfgRspCb",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylSimMuxCfgResult",
+                    },
+                    type_desc = "result_t2"
+                },
+            },
+        },
+        [545] = {
+            name = "IBIGetSimMuxCfgRspCb",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylSimMuxCfgResult",
+                    },
+                    type_desc = "result_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBISimMuxCfgEnum",
+                    },
+                    type_desc = "sim_cfg_req_t3"
+                },
+            },
+        },
         [769] = {
             name = "IBIVinylStatusIndCb",
             mtlvs = {1, 2},
@@ -31724,6 +33978,328 @@ return {
                         name = "IBIEnableVirtualSimStatusEnum",
                     },
                     type_desc = "status_t1"
+                },
+            },
+        },
+        [776] = {
+            name = "IBIVinylPairingIndCb",
+            mtlvs = {1, 2, 3, 4, 5, 6, 7, 8},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylPairingCmdEnum",
+                    },
+                    type_desc = "cmd_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylResult",
+                    },
+                    type_desc = "result_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "sw1_sw2_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "total_seg_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "cur_seg_t6"
+                },
+                [7] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "length_t7"
+                },
+                [8] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "payload_t8"
+                },
+            },
+        },
+        [777] = {
+            name = "IBIVinylATcmdIndCb",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylATCOp",
+                    },
+                    type_desc = "operation_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "iccid_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "smdp_addr_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "matching_id_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "confirmation_code_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "nickname_t6"
+                },
+                [7] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "slot_id_t7"
+                },
+            },
+        },
+        [778] = {
+            name = "IBIVinylPartialActiveProfileOpIndCb",
+            mtlvs = {1, 2, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "iccid_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylPrlActProfileActivateStatus",
+                    },
+                    type_desc = "activate_status_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylPrlActProfilePINStatus",
+                    },
+                    type_desc = "pin_status_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "slot_id_t4"
+                },
+            },
+        },
+        [779] = {
+            name = "IBINcModeIndCb",
+            mtlvs = {1, 2, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINcMode",
+                    },
+                    type_desc = "bcam_mode_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINcResult",
+                    },
+                    type_desc = "result_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "iccid_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 12,
+                        name = "IBIVinylM4OemData",
+                    },
+                    type_desc = "m4_oem_data_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 40,
+                        name = "IBIVinylM4OemData_V2",
+                    },
+                    type_desc = "m4_oem_data_v2_t6"
+                },
+            },
+        },
+        [780] = {
+            name = "IBINcUpdateBCAMCfgIndCb",
+            mtlvs = {1, 2, 3, 4},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINcResult",
+                    },
+                    type_desc = "result_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "sw1_sw2_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "bcam_cfg_response_t4"
+                },
+            },
+        },
+        [781] = {
+            name = "IBIVinylGetNcCfgIndCb",
+            mtlvs = {1, 2, 3, 4, 5, 6, 7, 8, 9},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "nInstance_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylResult",
+                    },
+                    type_desc = "result_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBINcCfgReq",
+                    },
+                    type_desc = "cfg_req_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "rsp_in_hash_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "sw1_sw2_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "total_seg_t6"
+                },
+                [7] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "cur_seg_t7"
+                },
+                [8] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "length_t8"
+                },
+                [9] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "payload_t9"
+                },
+            },
+        },
+        [782] = {
+            name = "IBISwitchSimMuxCfgIndCb",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIVinylSimMuxCfgResult",
+                    },
+                    type_desc = "result_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBISimMuxCfgEnum",
+                    },
+                    type_desc = "sim_cfg_req_t2"
                 },
             },
         },
@@ -32178,6 +34754,19 @@ return {
                 },
             },
         },
+        [925] = {
+            name = "IBIAwdsBatchMetricSubInd",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "payload_t1"
+                },
+            },
+        },
     },
     [54] = {
         ["name"] = "_ARIMSGDEF_GROUP54_stw",
@@ -32248,6 +34837,13 @@ return {
                     },
                     type_desc = "auto_initiate_registration_t10"
                 },
+                [11] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwQosPriority",
+                    },
+                    type_desc = "service_priority_t11"
+                },
             },
         },
         [258] = {
@@ -32307,6 +34903,13 @@ return {
                         name = "IBIStwGnssHeatMapParam",
                     },
                     type_desc = "gnss_heat_map_param_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwQosPriority",
+                    },
+                    type_desc = "service_priority_t5"
                 },
             },
         },
@@ -32522,6 +35125,31 @@ return {
             tlvs = {
             },
         },
+        [273] = {
+            name = "IBIStwEvalFringeCellConditionReq",
+            mtlvs = {},
+            tlvs = {
+            },
+        },
+        [274] = {
+            name = "IBIStwQueryFringeCellConditionReq",
+            mtlvs = {},
+            tlvs = {
+            },
+        },
+        [275] = {
+            name = "IBIStwServicePriorityUpdateReq",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwQosPriority",
+                    },
+                    type_desc = "service_priority_t2"
+                },
+            },
+        },
         [288] = {
             name = "IBIStwSarBackoffTimeReq",
             mtlvs = {2},
@@ -32572,6 +35200,168 @@ return {
                         name = "IBIUInt8",
                     },
                     type_desc = "guid_t3"
+                },
+            },
+        },
+        [291] = {
+            name = "IBIStwV2ActivateReq",
+            mtlvs = {2, 3, 4, 5, 6},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwV2ServiceType",
+                    },
+                    type_desc = "service_type_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwV2ProtocolMode",
+                    },
+                    type_desc = "protocol_mode_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 16,
+                        name = "IBIStwV2UeCloudToken",
+                    },
+                    type_desc = "ue_cloud_token_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 136,
+                        name = "IBIStwFreqList",
+                    },
+                    type_desc = "freq_list_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwV2DeviceType",
+                    },
+                    type_desc = "device_type_t6"
+                },
+                [7] = {
+                    codec = {
+                        length = 132,
+                        name = "IBIStwGpsParam",
+                    },
+                    type_desc = "gps_data_t7"
+                },
+            },
+        },
+        [292] = {
+            name = "IBIStwV2DeActivateReq",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwDeActivationReason",
+                    },
+                    type_desc = "reason_t2"
+                },
+            },
+        },
+        [293] = {
+            name = "IBIStwV2SuspendReq",
+            mtlvs = {2, 3},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwSuspendReason",
+                    },
+                    type_desc = "reason_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwSrvDomainPref",
+                    },
+                    type_desc = "serv_domain_pref_t3"
+                },
+            },
+        },
+        [294] = {
+            name = "IBIStwV2ResumeReq",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 136,
+                        name = "IBIStwFreqList",
+                    },
+                    type_desc = "freq_list_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 132,
+                        name = "IBIStwGpsParam",
+                    },
+                    type_desc = "gps_data_t3"
+                },
+            },
+        },
+        [295] = {
+            name = "IBIStwV2SendFileReq",
+            mtlvs = {3, 4},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 6,
+                        name = "IBIStwV2FileHeader",
+                    },
+                    type_desc = "file_header_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "file_info_len_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "file_info_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 1032,
+                        name = "IBIStwV2FileSignature",
+                    },
+                    type_desc = "file_signature_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwV2SubscriptionType",
+                    },
+                    type_desc = "subscription_type_t6"
+                },
+            },
+        },
+        [296] = {
+            name = "IBIStwV2GpsDataUpdateReq",
+            mtlvs = {},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 132,
+                        name = "IBIStwGpsParam",
+                    },
+                    type_desc = "gps_param_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 136,
+                        name = "IBIStwFreqList",
+                    },
+                    type_desc = "freq_list_t3"
                 },
             },
         },
@@ -33169,6 +35959,45 @@ return {
                 },
             },
         },
+        [529] = {
+            name = "IBIStwEvalFringeCellConditionRspCb",
+            mtlvs = {},
+            tlvs = {
+            },
+        },
+        [530] = {
+            name = "IBIStwQueryFringeCellConditionRspCb",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwFringeCellStatus",
+                    },
+                    type_desc = "fringe_cell_status_t2"
+                },
+            },
+        },
+        [531] = {
+            name = "IBIStwServicePriorityUpdateRspCb",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwResult",
+                    },
+                    type_desc = "result_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwCause",
+                    },
+                    type_desc = "cause_t3"
+                },
+            },
+        },
         [544] = {
             name = "IBIStwSarBackoffTimeRspCb",
             mtlvs = {2, 3},
@@ -33226,6 +36055,91 @@ return {
                         name = "IBIStwCause",
                     },
                     type_desc = "error_t3"
+                },
+            },
+        },
+        [547] = {
+            name = "IBIStwV2ActivateRspCb",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 8,
+                        name = "IBIStwV2ResponseParam",
+                    },
+                    type_desc = "response_t2"
+                },
+            },
+        },
+        [548] = {
+            name = "IBIStwV2DeActivateRspCb",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 8,
+                        name = "IBIStwV2ResponseParam",
+                    },
+                    type_desc = "response_t2"
+                },
+            },
+        },
+        [549] = {
+            name = "IBIStwV2SuspendRspCb",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 8,
+                        name = "IBIStwV2ResponseParam",
+                    },
+                    type_desc = "response_t2"
+                },
+            },
+        },
+        [550] = {
+            name = "IBIStwV2ResumeRspCb",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 8,
+                        name = "IBIStwV2ResponseParam",
+                    },
+                    type_desc = "response_t2"
+                },
+            },
+        },
+        [551] = {
+            name = "IBIStwV2SendFileRspCb",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 8,
+                        name = "IBIStwV2ResponseParam",
+                    },
+                    type_desc = "response_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 2,
+                        name = "IBIUInt16",
+                    },
+                    type_desc = "next_expected_segment_t3"
+                },
+            },
+        },
+        [552] = {
+            name = "IBIStwV2GpsDataUpdateRspCb",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 8,
+                        name = "IBIStwV2ResponseParam",
+                    },
+                    type_desc = "response_t2"
                 },
             },
         },
@@ -33664,6 +36578,141 @@ return {
             tlvs = {
             },
         },
+        [783] = {
+            name = "IBIStwV2ActivateCompleteIndCb",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 8,
+                        name = "IBIStwV2ResponseParam",
+                    },
+                    type_desc = "response_t1"
+                },
+            },
+        },
+        [784] = {
+            name = "IBIStwV2DeActivateCompleteIndCb",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwDeActivationReason",
+                    },
+                    type_desc = "reason_t1"
+                },
+            },
+        },
+        [785] = {
+            name = "IBIStwV2RequestStateChangeIndCb",
+            mtlvs = {1, 2, 3},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwRequestedState",
+                    },
+                    type_desc = "requested_state_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwSuspendReason",
+                    },
+                    type_desc = "reason_to_suspend_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwDeActivationReason",
+                    },
+                    type_desc = "reason_to_deactivate_t3"
+                },
+            },
+        },
+        [786] = {
+            name = "IBIStwV2ServiceInfoIndCb",
+            mtlvs = {1, 2},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwConnectionStatus",
+                    },
+                    type_desc = "conn_status_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwRegistrationStatus",
+                    },
+                    type_desc = "reg_status_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwV2SignalStrength",
+                    },
+                    type_desc = "signal_strength_t3"
+                },
+                [4] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwUxCongestionStatus",
+                    },
+                    type_desc = "ux_congestion_status_t4"
+                },
+                [5] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwFuzzedLocation",
+                    },
+                    type_desc = "fuzzed_location_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "sgid_t6"
+                },
+                [7] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "tuid_t7"
+                },
+            },
+        },
+        [787] = {
+            name = "IBIStwV2SendFileStatusIndCb",
+            mtlvs = {1, 2},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "file_id_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwFileProcStatus",
+                    },
+                    type_desc = "status_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIStwV2SubscriptionType",
+                    },
+                    type_desc = "subscription_type_t3"
+                },
+            },
+        },
     },
     [60] = {
         ["name"] = "_ARIMSGDEF_GROUP60_ice_audio",
@@ -33870,6 +36919,19 @@ return {
                 },
             },
         },
+        [271] = {
+            name = "CsiIceAudDownlinkDtmfIndEnableReq",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "enable_t1"
+                },
+            },
+        },
         [513] = {
             name = "CsiIceAudSetDeviceRespCb",
             mtlvs = {1},
@@ -34055,6 +37117,19 @@ return {
         },
         [526] = {
             name = "CsiIceAudSetMuteStatusRespCb",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "result_t1"
+                },
+            },
+        },
+        [527] = {
+            name = "CsiIceAudDownlinkDtmfIndEnableRespCb",
             mtlvs = {1},
             tlvs = {
                 [1] = {
@@ -34309,6 +37384,26 @@ return {
                         name = "UtaUInt32",
                     },
                     type_desc = "rat_type_t8"
+                },
+            },
+        },
+        [785] = {
+            name = "CsiIceAudDtmfEventIndCb",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "ascii_symbol_t1"
+                },
+                [2] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "call_id_t2"
                 },
             },
         },
@@ -34798,6 +37893,26 @@ return {
             name = "IBIGetRFFEScanDataReq",
             mtlvs = {},
             tlvs = {
+            },
+        },
+        [293] = {
+            name = "IBIConfigTxAntennaLocationReportingReq",
+            mtlvs = {2, 3},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "enabled_t2"
+                },
+                [3] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "minimum_report_interval_t3"
+                },
             },
         },
         [298] = {
@@ -35333,6 +38448,19 @@ return {
                 },
             },
         },
+        [549] = {
+            name = "IBIConfigTxAntennaLocationReportingRsp",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "IBICommonReturnCodes",
+                    },
+                    type_desc = "result_t2"
+                },
+            },
+        },
         [554] = {
             name = "CsiIceRFFilerWriteRspCb",
             mtlvs = {1, 2},
@@ -35403,6 +38531,19 @@ return {
                         name = "IBIUInt32",
                     },
                     type_desc = "received_mw_t1"
+                },
+            },
+        },
+        [781] = {
+            name = "IBITxAntennaLocationReportInd",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "tx_ant_location_t1"
                 },
             },
         },
@@ -35824,6 +38965,13 @@ return {
                     },
                     type_desc = "seq_id_t3"
                 },
+                [5] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "compression_supported_t5"
+                },
             },
         },
         [288] = {
@@ -36020,6 +39168,38 @@ return {
                     },
                     type_desc = "cmd_t2"
                 },
+            },
+        },
+        [295] = {
+            name = "CsiSahSetRecoverableAssertDebounceTimeoutReq",
+            mtlvs = {2},
+            tlvs = {
+                [2] = {
+                    codec = {
+                        length = 4,
+                        name = "UtaUInt32",
+                    },
+                    type_desc = "debounce_timeout_sec_t2"
+                },
+            },
+        },
+        [296] = {
+            name = "TraceSetBasebandAnomalyDetectionConfigReq",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "BasebandAnomalyDetectionLevel",
+                    },
+                    type_desc = "level_t1"
+                },
+            },
+        },
+        [297] = {
+            name = "CsiBspShutdownEndReq",
+            mtlvs = {},
+            tlvs = {
             },
         },
         [513] = {
@@ -36556,6 +39736,27 @@ return {
                     },
                     type_desc = "checksum_t3"
                 },
+                [5] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "uncompressed_t5"
+                },
+                [6] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIBool",
+                    },
+                    type_desc = "add_compression_header_t6"
+                },
+                [7] = {
+                    codec = {
+                        length = 8,
+                        name = "IBIUInt64",
+                    },
+                    type_desc = "actual_file_size_bytes_t7"
+                },
             },
         },
         [545] = {
@@ -36704,6 +39905,38 @@ return {
                     },
                     type_desc = "data_t4"
                 },
+            },
+        },
+        [551] = {
+            name = "CsiSahSetRecoverableAssertDebounceTimeoutRspCb",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "UtaUInt32",
+                    },
+                    type_desc = "result_t1"
+                },
+            },
+        },
+        [552] = {
+            name = "TraceSetBasebandAnomalyDetectionConfigRsp",
+            mtlvs = {1},
+            tlvs = {
+                [1] = {
+                    codec = {
+                        length = 4,
+                        name = "IBIUInt32",
+                    },
+                    type_desc = "result_code_t1"
+                },
+            },
+        },
+        [553] = {
+            name = "CsiBspShutdownEndRspCb",
+            mtlvs = {},
+            tlvs = {
             },
         },
         [789] = {
@@ -36952,6 +40185,13 @@ return {
                     },
                     type_desc = "ticket_t2"
                 },
+                [4] = {
+                    codec = {
+                        length = 1,
+                        name = "IBIUInt8",
+                    },
+                    type_desc = "meas_type_t4"
+                },
             },
         },
         [513] = {
@@ -37095,6 +40335,13 @@ return {
                         name = "UtaUInt32",
                     },
                     type_desc = "status_t6"
+                },
+                [8] = {
+                    codec = {
+                        length = 2,
+                        name = "UtaUInt16",
+                    },
+                    type_desc = "nvm_status_t8"
                 },
             },
         },
@@ -37620,6 +40867,20 @@ return {
                         name = "UtaUInt8",
                     },
                     type_desc = "slot2_is_bootstrap_t36"
+                },
+                [37] = {
+                    codec = {
+                        length = 1,
+                        name = "UtaUInt8",
+                    },
+                    type_desc = "profile_class_slot1_t37"
+                },
+                [38] = {
+                    codec = {
+                        length = 1,
+                        name = "UtaUInt8",
+                    },
+                    type_desc = "profile_class_slot2_t38"
                 },
             },
         },

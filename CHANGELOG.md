@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Add TLV parsers for Cell Information Types
 - Add SIM information to the packet info column for SIM specific packets
 - Add Direction Header to most of the packets
+- Added new ARI structures from iOS 27.0 (24A435)
 
 ### Fixes
 
