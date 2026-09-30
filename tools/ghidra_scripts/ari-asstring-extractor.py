@@ -8,18 +8,18 @@
 #@menupath
 #@toolbar
 
-from ghidra.app.decompiler import DecompileOptions
-from ghidra.app.decompiler import DecompInterface
-from ghidra.util.task import ConsoleTaskMonitor
-from ghidra.program.model.pcode import PcodeOp
-from ghidra.program.model.scalar import Scalar
-from ghidra.program.model.data import Pointer40DataType
-from ghidra.program.model.address import Address
-from ghidra.app.emulator import EmulatorHelper
-
-import binascii
-import os
 import datetime
+import os
+
+from ghidra.app.decompiler import DecompInterface
+from ghidra.app.decompiler import DecompileOptions
+from ghidra.app.emulator import EmulatorHelper
+# from ghidra.ghidra_builtins import askDirectory, currentProgram, toAddr, getDataContaining, getDataAt, removeDataAt
+from ghidra.program.model.address import Address
+from ghidra.program.model.data import Pointer40DataType
+from ghidra.program.model.pcode import PcodeOp
+from ghidra.util.task import ConsoleTaskMonitor
+
 
 class Resolver:
     countStringFunctions = 0
@@ -192,7 +192,7 @@ class Resolver:
 
                 valueReg = currentProgram.getRegister(inputVarnode).getName()
                 valueAdrLong = emuHelper.readRegister(valueReg)
-                valueAdr = toAddr(valueAdrLong)
+                valueAdr = toAddr(valueAdrLong.longValue())
                 value = getDataAt(valueAdr).getValue()
                 result.append((lastCompareVal, value))
                 lastCompareVal = None
@@ -223,7 +223,7 @@ class Resolver:
                 pcoPrtSub = pcodeop
                 break
 
-		# Check if we found all needed operands for this to be evaluated as a pointer reference
+        # Check if we found all needed operands for this to be evaluated as a pointer reference
         if pcoPrtSub is not None and pcoCmpLess is not None:
             cmpLessNum = pcoCmpLess.getInput(1).getOffset() # Constant -> Offset equals value
             pointerAddr = pcoPrtSub.getInput(1).getAddress()
@@ -250,8 +250,8 @@ class Resolver:
                 if (dataExistsContainingAddress and not dataExistsAtAddress):
                     print("\t! Skipping, because we would break another data definition that overlaps at {}".format(addr.toString(False)))
                     continue
-                
-                if (dataExistsAtAddress and not dataAtAddress.getDataType().toString() == Pointer40DataType.dataType.toString()):
+
+                if (dataExistsAtAddress and isinstance(dataAtAddress.getDataType(), Pointer40DataType)):
                     print("\t! Skipping, because we would remove another existing data definition at {}".format(addr.toString(False)))
                     continue
                 
